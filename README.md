@@ -1,6 +1,13 @@
 # PAP2024Z-Z04
 
 
+
+
+Diana Pelin
+Katsyaryna Anikevich
+Alesia Filinkova
+Sofiya Yedzeika
+
 Opis:
 Aplikacja webowa, która pomaga studentom lepiej zarządzać swoimi zadaniami i planem tygodniowym. System łączy funkcje rejestracji i logowania, menedżera studentów oraz menedżera zadań. Po zalogowaniu użytkownik może stworzyć swój profil, w którym dodaje informacje o swoim planie dnia, zajęciach czy ważnych terminach.
 
