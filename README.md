@@ -5,29 +5,62 @@
  Alesia Filinkova,
  Sofiya Yedzeika,
 
-## Zadania projektowe 
- - studenci realizują projekty w zespołach 3-4 osobowych 
- - Zadania projektowe ustalamy z prowadzącym zespół 
- - Wykonanie zadania będzie podzielone na etapy, z określonym terminem wykonania: 
-       - etap 1 - 29.10.2024 (5p) 
-           - podział na zespoły (z wykorzystaniem LeOn-a) do 22.10-2024 - numery zespołów przydzielę na podstawie zgłoszeń 
-           - Zespoły zostaną przypisane do prowadzących w dniu 23.10.2024 
-           - ustalenie z prowadzącym projekt tematu zadania 
-           - założenie repozytorium na wydziałowym gitlabie PAP2024Z-Zxx gdzie xx numer zespołu np: PAP2024Z-Z03 
-           - przydzielenie praw do repozytorium prowadzącemu grupę zajęciową oraz prowadzącemu wykład (jmyrcha) 
-           - dostarczenie dokumentu z wymaganiami (oraz umieszczenie go w repozytorium) 
-       - etap 2 - 03.12.2024 (10p) 
-           - działający prototyp 
-       - etap 3 - 14.01.2025 (15p) 
-           - działająca aplikacja 
-           - prowadzacy zgłasza uwagi 
-       - etap 4 - 28.01.2025 (10p) 
-           - działająca aplikacja uwzględniająca uwagi prowadzącego z 3 etapu 
+-----------------------------------
+Etapy:
+1.podział na zespoły, ustalenie tematu, dostarczenie dokumentu z wymaganiami
+2.działający prototyp
+3.działająca aplikacja
+4.działająca aplikacja uwzględniająca uwagi prowadzącego z 3 etapu
+------------------------------
 
-## Repozytorium na gitlabie
-   - Proszę o założenie na uczelnianym gitlabie https://gitlab-stud.elka.pw.edu.pl/ projektu o nazwie PAP2024Z-Zxx (gdzie xx numer zespołu np: PAP2024Z-Z03) 
-   - Proszę w projekcie utworzyć plik README zawierający listę studentów należących do zespołu. 
-   - Proszę o udostępnienie projektów użytkownikowi jmyrcha (oraz prowadzącemu daną grupę projektową) 
-   - Po wykonaniu każdego etapu przesyłamy (każdy członek zespołu niezależnie) za pomocą TEAMS opis rozwiązania + link do projektu w gitlabie 
-   - Proszę nie przesyłać zadań mailem! (> /dev/null) 
-   - Oddanie etapu będzie wymagało kontaktu z prowadzącym dany zespół - to zespół jest odpowiedzialny za uzgodnienie z prowadzącym zespół terminu!
+Projekt zakłada stworzenie aplikacji webowej
+
+Wymagania funkcjonalne:
+
+1. Rejestracja i logowanie
+* Rejestracja:
+    * Użytkownik może zarejestrować konto, podając adres e-mail, nazwę użytkownika i hasło.
+    * System sprawdza unikalność e-maila i nazwy użytkownika.
+* Logowanie:
+    * Użytkownik loguje się, podając e-mail i hasło.
+
+2. Profil użytkownika
+* Tworzenie profilu:
+    * Użytkownik wprowadza dane osobiste: imię, nazwisko, kierunek studiów.
+    * Możliwość dodania i edytowania planu zajęć z podziałem na dni tygodnia (godziny, nazwa przedmiotu, lokalizacja).
+* Edycja profilu:
+    * Użytkownik może aktualizować swoje dane i plan zajęć.
+
+3. Menedżer zadań
+* Dodawanie zadań:
+    * Użytkownik wprowadza tytuł, opis, priorytet (niski, średni, wysoki) i termin realizacji.
+* Priorytetyzacja i filtrowanie:
+    * System umożliwia sortowanie zadań według priorytetu lub terminu.
+* Edytowanie i usuwanie:
+    * Możliwość edytowania i usuwania zadań.
+* Oznaczanie jako wykonane:
+    * Użytkownik może oznaczyć zadanie jako „zrealizowane”, co przenosi je do archiwum zadań.
+
+4. Planowanie dnia
+* Widok dzienny, tygodniowy, miesięczny:
+    * Użytkownik przegląda zadania w różnych perspektywach czasowych.
+
+
+5. Notatki
+    * Możliwość dodawania krótkich notatek do każdego zadania.
+
+
+
+
+
+Wymagania techniczne
+1. Backend:
+    * Język programowania: Java
+    * Framework: Spring Boot (do obsługi logiki serwerowej, zarządzania użytkownikami, integracji z bazą danych )
+2. Frontend:
+    * Język programowania: JavaScript
+    * Biblioteka: React
+3. Baza danych:
+    * System zarządzania bazą danych: Oracle Database (do przechowywania danych o użytkownikach, zadaniach i planach zajęć)
+4. Inne narzędzia:
+    * GitLab: Do wersjonowania kodu i zarządzania projektem.v
