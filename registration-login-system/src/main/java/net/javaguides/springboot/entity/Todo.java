@@ -24,5 +24,8 @@ public class Todo {
     @Column(nullable = false)
     private String description;
     private boolean completed;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

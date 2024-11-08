@@ -1,6 +1,7 @@
 package net.javaguides.springboot.service.impl;
 
 import lombok.AllArgsConstructor;
+import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.dto.TodoDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Todo;
@@ -34,6 +35,12 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public List<TodoDto> getAllTodos() {
         List<Todo> todos = todoRepository.findAll();
+        return todos.stream().map((todo) -> mapToUserDto(todo)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TodoDto> getAllTodosByUser() {
+        List<Todo> todos = todoRepository.findTodoByUserId(CurrentUser.user.getId());
         return todos.stream().map((todo) -> mapToUserDto(todo)).collect(Collectors.toList());
     }
 
