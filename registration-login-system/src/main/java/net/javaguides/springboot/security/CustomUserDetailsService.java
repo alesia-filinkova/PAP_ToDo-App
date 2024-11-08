@@ -1,5 +1,6 @@
 package net.javaguides.springboot.security;
 
+import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(usernameOrEmail);
+        CurrentUser.user = user;
         if(user != null){
             return new org.springframework.security.core.userdetails.User(user.getEmail()
                     , user.getPassword(),

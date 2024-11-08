@@ -75,7 +75,7 @@ public class AuthController {
 
     @GetMapping("/todos")
     public String todos(Model model){
-        List<TodoDto> todos = todoService.getAllTodos();
+        List<TodoDto> todos = todoService.getAllTodosByUser();
         model.addAttribute("todos", todos);
         return "todos";
     }
