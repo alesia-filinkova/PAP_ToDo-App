@@ -3,9 +3,7 @@ package net.javaguides.springboot.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.dto.TodoDto;
-import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Todo;
-import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.repository.TodoRepository;
 import net.javaguides.springboot.service.TodoService;
 
@@ -21,27 +19,30 @@ public class TodoServiceImpl implements TodoService {
     private TodoRepository todoRepository;
 
     @Override
-    public TodoDto addTodo(TodoDto todoDto) {
-        return null;
+    public void addTodo(TodoDto todoDto) {
+        Todo todo = new Todo();
+        todo.setTitle(todoDto.getTitle());
+        todo.setDescription(todoDto.getDescription());
+        todo.setUser(CurrentUser.user);
+        todoRepository.save(todo);
     }
 
     @Override
     public TodoDto getTodo(Long id) {
         Todo todo = todoRepository.findById(id).get();
-
-        return mapToUserDto(todo);
+        return mapToTodoDto(todo);
     }
 
     @Override
     public List<TodoDto> getAllTodos() {
         List<Todo> todos = todoRepository.findAll();
-        return todos.stream().map((todo) -> mapToUserDto(todo)).collect(Collectors.toList());
+        return todos.stream().map((todo) -> mapToTodoDto(todo)).collect(Collectors.toList());
     }
 
     @Override
     public List<TodoDto> getAllTodosByUser() {
         List<Todo> todos = todoRepository.findTodoByUserId(CurrentUser.user.getId());
-        return todos.stream().map((todo) -> mapToUserDto(todo)).collect(Collectors.toList());
+        return todos.stream().map((todo) -> mapToTodoDto(todo)).collect(Collectors.toList());
     }
 
     @Override
@@ -49,11 +50,11 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = todoRepository.findById(id).get();
         todo.setTitle(todoDto.getTitle());
         todo.setDescription(todoDto.getDescription());
-        todo.setCompleted(todoDto.isCompleted());
+        todo.setCompleted(todoDto.getCompleted());
 
         Todo updatedTodo = todoRepository.save(todo);
 
-        return mapToUserDto(updatedTodo);
+        return mapToTodoDto(updatedTodo);
     }
 
     @Override
@@ -72,15 +73,26 @@ public class TodoServiceImpl implements TodoService {
         return null;
     }
 
-    private TodoDto mapToUserDto(Todo todo){
+    private TodoDto mapToTodoDto(Todo todo){
         TodoDto todoDto = new TodoDto(
                 todo.getId(),
                 todo.getTitle(),
                 todo.getDescription(),
-                false
+                todo.getCompleted()
         );
 
         return todoDto;
+    }
+
+    private Todo mapToTodo(TodoDto todoDto){
+        Todo todo = new Todo(
+                todoDto.getId(),
+                todoDto.getTitle(),
+                todoDto.getDescription(),
+                todoDto.getCompleted(),
+                CurrentUser.user
+        );
+        return todo;
     }
 
 }
