@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -33,6 +34,7 @@ public class SpringSecurity {
                 .requestMatchers("/index").permitAll()
                 .requestMatchers("/todos").hasRole("ADMIN")
                 //.requestMatchers("/users").hasRole("USER")
+                .requestMatchers("/css/**").permitAll()
                 .and()
                 .formLogin(
                         form -> form
