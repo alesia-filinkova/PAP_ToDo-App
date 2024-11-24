@@ -1,0 +1,174 @@
+@charset "UTF-8";
+
+body {
+    background-color: #FFE8C2;
+    display: flex;
+    justify-content: center;
+}
+
+/* General container */
+.container {
+    background: #FFE8C2;
+    position: absolute;
+    height: 935px;
+    width: 855px;
+}
+
+/* Title */
+.title {
+    position: absolute;
+    margin: auto;
+    width: 855px;
+    height: 208px;
+    color: #47465a;
+    text-align: center;
+    font-family: "Rammetto One", cursive;
+    font-size: 128px;
+}
+
+.not_have_account{
+    position: absolute;
+    width: 855px;
+    height: 66px;
+    top: 215px;
+    color: #47465a;
+    font-family: Raleway, sans-serif;
+    font-size: 36px;
+}
+
+.sign_up_button{
+    position: absolute;
+    right: 0px;
+    font-family: "Rammetto One", cursive;
+    text-decoration: none;
+}
+
+/* Input fields */
+.input-field {
+    position: absolute;
+    width: 855px;
+    height: 80px;
+    border-radius: 12px;
+    border: 0px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 30px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    color: #47465a;
+}
+
+.username {
+    top: 286px;
+}
+
+.password {
+    top: 398px;
+}
+
+.name{
+    top: 294px;
+}
+
+.email{
+    top: 404px;
+}
+
+.create_password{
+    top: 516px;
+}
+/* Forgot password link */
+.forgot-password {
+    position: absolute;
+    left: 7px;
+    top: 503px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    color: #47465A;
+    text-decoration: none;
+}
+
+/* Login button */
+.login-btn {
+    position: absolute;
+    width: 855px;
+    height: 80px;
+    background: #47465A;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    text-align: center;
+    color: #FFE8C2;
+    cursor: pointer;
+}
+
+.login-btn_login {
+    top: 579px;
+}
+
+.login-btn_sign_up {
+    top: 645px;
+}
+
+/* Separator */
+.separator {
+    position: absolute;
+    width: 855px;
+    height: 61px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.separator_login{
+    top: 690px;
+}
+
+.separator_sign_up{
+    top: 756px;
+}
+
+.or {
+    font-family: 'Rammetto One', cursive;
+    font-size: 36px;
+    color: #47465A;
+    padding: 0 10px;
+}
+
+.line {
+    width: 380px;
+    border: 1px solid #000000;
+}
+
+.left {
+    transform: rotate(-0.14deg);
+}
+
+.right {
+    transform: rotate(-0.14deg);
+}
+
+/* Google login button */
+.google-btn {
+    position: absolute;
+    left: 7px;
+    width: 855px;
+    height: 80px;
+    border-radius: 12px;
+    border: none;
+    background: #d9d9d9;
+    background-blend-mode: normal;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    text-align: center;
+    color: #47465A;
+    cursor: pointer;
+}
+
+.google-btn_log{
+    top: 774px;
+}
+
+.google-btn_sign_up{
+    top: 840px;
+}
