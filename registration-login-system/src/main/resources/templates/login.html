@@ -5,24 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
-<!--    <link href="/css/bootstrap.min.css"-->
-<!--          rel="stylesheet">-->
-        <link href="/css/style_login.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
 
-    <!-- Title -->
     <div class="title">Log in</div>
 
-    <!-- Sign up prompt -->
     <span class="not_have_account">
         Doesn't have an account yet?
         <a class="sign_up_button" th:href="@{/register}">Sign up</a>
     </span>
 
-    <!-- Input fields -->
     <form method="post" th:action="@{/login}" role="form" class="form-horizontal">
         <div>
             <input
@@ -42,20 +37,17 @@
         <!-- Forgot password link -->
         <a href="#" class="forgot-password">Forgot your password?</a>
 
-        <!-- Login button -->
         <div>
             <button type="submit" class="login-btn login-btn_login">Login</button>
         </div>
     </form>
 
-    <!-- Separator -->
     <div class="separator separator_login">
         <div class="line left"></div>
         <span class="or">or</span>
         <div class="line right"></div>
     </div>
 
-    <!-- Google login button -->
     <div>
         <button class="google-btn google-btn_log">Login with Google</button>
     </div>
