@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -32,7 +31,9 @@ public class SpringSecurity {
                 .authorizeHttpRequests()
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/index").permitAll()
-                .requestMatchers("/todos").hasRole("ADMIN")
+                .requestMatchers("/todos/**").permitAll()
+                .requestMatchers("/addTodo/**").permitAll()
+                .requestMatchers("/addTodo/save").permitAll()
                 //.requestMatchers("/users").hasRole("USER")
                 .requestMatchers("/css/**").permitAll()
                 .and()
@@ -40,7 +41,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/todos")
+                                .defaultSuccessUrl("/todos", true)
                                 .permitAll()
                 ).logout(
                         logout -> logout
@@ -48,6 +49,7 @@ public class SpringSecurity {
                                 .permitAll()
 
                 );
+
         return http.build();
     }
 
