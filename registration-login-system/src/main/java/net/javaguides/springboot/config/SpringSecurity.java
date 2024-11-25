@@ -31,7 +31,9 @@ public class SpringSecurity {
                 .authorizeHttpRequests()
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/index").permitAll()
-                .requestMatchers("/todos").hasRole("ADMIN")
+                .requestMatchers("/todos/**").permitAll()
+                .requestMatchers("/addTodo/**").permitAll()
+                .requestMatchers("/addTodo/save").permitAll()
                 //.requestMatchers("/users").hasRole("USER")
                 .and()
                 .formLogin(
@@ -46,6 +48,7 @@ public class SpringSecurity {
                                 .permitAll()
 
                 );
+
         return http.build();
     }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <meta charset="UTF-8">
@@ -30,20 +30,28 @@
     <div class="row col-md-10">
         <h2>List of Todos</h2>
     </div>
+    <div>
+        <a th:href="@{/addTodo}">Add Todo</a>
+    </div>
+
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Completed</th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each = "todo : ${todos}">
-                <td th:text = "${todo.title}"></td>
-                <td th:text = "${todo.description}"></td>
-                <td th:text = "${todo.completed}"></td>
-            </tr>
+        <tr th:each = "todo : ${todos}">
+            <td th:text = "${todo.title}"></td>
+            <td th:text = "${todo.description}"></td>
+            <td th:text = "${todo.completed}"></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{/todos/{todoId}/delete(todoId=${todo.id})}">Delete</a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
