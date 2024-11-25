@@ -1,5 +1,4 @@
 package net.javaguides.springboot.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +16,13 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String description;
-    private boolean completed;
+
+    private Boolean completed = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
