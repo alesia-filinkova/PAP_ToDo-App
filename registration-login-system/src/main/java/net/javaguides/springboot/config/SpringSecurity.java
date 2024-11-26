@@ -35,12 +35,13 @@ public class SpringSecurity {
                 .requestMatchers("/addTodo/**").permitAll()
                 .requestMatchers("/addTodo/save").permitAll()
                 //.requestMatchers("/users").hasRole("USER")
+                .requestMatchers("/css/**").permitAll()
                 .and()
                 .formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/todos")
+                                .defaultSuccessUrl("/todos", true)
                                 .permitAll()
                 ).logout(
                         logout -> logout
