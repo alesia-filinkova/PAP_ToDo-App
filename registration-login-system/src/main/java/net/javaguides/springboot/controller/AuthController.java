@@ -1,6 +1,7 @@
 package net.javaguides.springboot.controller;
 
 import jakarta.validation.Valid;
+import net.javaguides.springboot.RegistrationLoginSystemApplication;
 import net.javaguides.springboot.dto.TodoDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Todo;
@@ -22,10 +23,12 @@ public class AuthController {
 
     private final UserService userService;
     private final TodoService todoService;
+    private final RegistrationLoginSystemApplication registrationLoginSystemApplication;
 
-    public AuthController(UserService userService, TodoService todoService) {
+    public AuthController(UserService userService, TodoService todoService, RegistrationLoginSystemApplication registrationLoginSystemApplication) {
         this.userService = userService;
         this.todoService = todoService;
+        this.registrationLoginSystemApplication = registrationLoginSystemApplication;
     }
 
     @GetMapping("/index")
@@ -74,11 +77,10 @@ public class AuthController {
 
     @GetMapping("/todos")
     public String todos(Model model) {
-        // Pobierz listę zadań
+
         List<TodoDto> todos = todoService.getAllTodosByUser();
         model.addAttribute("todos", todos);
 
-        // Przekaż pusty obiekt TodoDto do formularza
         model.addAttribute("todo", new TodoDto());
         return "todos";
     }
@@ -87,18 +89,17 @@ public class AuthController {
     public String addTodo(@Valid @ModelAttribute("todo") TodoDto todo,
                           BindingResult result,
                           Model model) {
+
+
         if (result.hasErrors()) {
-            // Jeśli wystąpiły błędy walidacji, ponownie wyświetl widok `todos`
             List<TodoDto> todos = todoService.getAllTodosByUser();
             model.addAttribute("todos", todos);
             model.addAttribute("todo", todo);
             return "todos";
         }
 
-        // Dodaj nowe zadanie
         todoService.addTodo(todo);
 
-        // Przekieruj do `/todos` po pomyślnym dodaniu
         return "redirect:/todos";
     }
 

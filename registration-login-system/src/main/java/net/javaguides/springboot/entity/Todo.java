@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -27,4 +31,7 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    private LocalDate deadline;
+    private String priority;
 }
