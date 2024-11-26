@@ -16,12 +16,14 @@
             <div class="titles_text">Add Task</div>
         </div>
         <div class="tm_content">
-            <form method="post" th:action="@{/addTodo/save}" th:object="${todo}">
+            <form method="post" role="form" th:action="@{/todos/save}" th:object="${todo}">
                 <input
                         type="text"
                         class="add_task_content_field add_task_content_field_title"
                         placeholder="Title"
                         name="title"
+                        id="title"
+                        th:field="*{title}"
                 />
                 <select
                         class="add_task_content_field add_task_content_field_priority"
@@ -40,9 +42,11 @@
                 />
                 <textarea
                         class="add_task_content_field add_task_content_field_description"
-                        rows="4"
                         placeholder="Enter description"
                         name="description"
+                        id="description"
+                        th:field="*{description}"
+                        type="text"
                 ></textarea>
                 <button type="submit" class="add_task_content_field_btn add_task_content_field_btn_save">
                     Save
