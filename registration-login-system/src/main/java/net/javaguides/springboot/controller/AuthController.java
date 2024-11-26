@@ -20,8 +20,8 @@ import java.util.List;
 @Controller
 public class AuthController {
 
-    private UserService userService;
-    private TodoService todoService;
+    private final UserService userService;
+    private final TodoService todoService;
 
     public AuthController(UserService userService, TodoService todoService) {
         this.userService = userService;
@@ -29,35 +29,34 @@ public class AuthController {
     }
 
     @GetMapping("/index")
-    public String home(){
+    public String home() {
         return "index";
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model){
+    public String showRegistrationForm(Model model) {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
     }
 
-    // handler method to handle user registration form submit request
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
-                               Model model){
+                               Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("user", userDto);
             return "/register";
         }
@@ -66,53 +65,47 @@ public class AuthController {
         return "redirect:/register?success";
     }
 
-    // handler method to handle list of users
     @GetMapping("/users")
-    public String users(Model model){
+    public String users(Model model) {
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";
     }
 
     @GetMapping("/todos")
-    public String todos(Model model){
+    public String todos(Model model) {
+        // Pobierz listę zadań
         List<TodoDto> todos = todoService.getAllTodosByUser();
         model.addAttribute("todos", todos);
+
+        // Przekaż pusty obiekt TodoDto do formularza
+        model.addAttribute("todo", new TodoDto());
         return "todos";
     }
 
-    @GetMapping("/addTodo")
-    public String showAddTodoPage(Model model){
-        TodoDto todo = new TodoDto();
-        model.addAttribute("todo", todo);
-        return "addTodo";
-    }
-
-    @PostMapping("/addTodo/save")
-    public String addtodo(@Valid @ModelAttribute("todo") TodoDto todo,
+    @PostMapping("/todos/save")
+    public String addTodo(@Valid @ModelAttribute("todo") TodoDto todo,
                           BindingResult result,
-                          Model model){
-
-
-//        TodoDto existingTodo = todoService.getTodo(todo.getId());
-//
-//        if(existingTodo != null && existingTodo.getId() != null ){
-//            result.rejectValue("todo", null,
-//                    "There an todo alredy exist");
-//        }
-
-        if(result.hasErrors()){
+                          Model model) {
+        if (result.hasErrors()) {
+            // Jeśli wystąpiły błędy walidacji, ponownie wyświetl widok `todos`
+            List<TodoDto> todos = todoService.getAllTodosByUser();
+            model.addAttribute("todos", todos);
             model.addAttribute("todo", todo);
-            return "/addTodo";
+            return "todos";
         }
 
+        // Dodaj nowe zadanie
         todoService.addTodo(todo);
-        return "redirect:/addTodo?success";
+
+        // Przekieruj do `/todos` po pomyślnym dodaniu
+        return "redirect:/todos";
     }
 
     @GetMapping("/todos/{todoId}/delete")
-    public String deleteStudent(@PathVariable("todoId") Long todoId) {
+    public String deleteTodo(@PathVariable("todoId") Long todoId) {
         todoService.deleteTodo(todoId);
         return "redirect:/todos";
     }
 }
+

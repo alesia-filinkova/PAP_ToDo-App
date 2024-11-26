@@ -1,0 +1,308 @@
+@charset "UTF-8";
+
+body {
+    background-color: #FFE8C2;
+    display: flex;
+    justify-content: center;
+}
+
+/* General container */
+.container {
+    background: #FFE8C2;
+    position: absolute;
+    height: 935px;
+    width: 855px;
+}
+
+/* Title */
+.title {
+    position: absolute;
+    margin: auto;
+    width: 855px;
+    height: 208px;
+    color: #47465a;
+    text-align: center;
+    font-family: "Rammetto One", cursive;
+    font-size: 128px;
+}
+
+.not_have_account{
+    position: absolute;
+    width: 855px;
+    height: 66px;
+    top: 215px;
+    color: #47465a;
+    font-family: Raleway, sans-serif;
+    font-size: 36px;
+}
+
+.sign_up_button{
+    position: absolute;
+    right: 0;
+    font-family: "Rammetto One", cursive;
+    text-decoration: none;
+}
+
+/* Input fields */
+.input-field {
+    position: absolute;
+    width: 855px;
+    height: 80px;
+    border-radius: 12px;
+    border: 0;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    padding-left: 30px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    color: #47465a;
+}
+
+.username {
+    top: 286px;
+}
+
+.password {
+    top: 398px;
+}
+
+.name{
+    top: 294px;
+}
+
+.email{
+    top: 404px;
+}
+
+.create_password{
+    top: 516px;
+}
+/* Forgot password link */
+.forgot-password {
+    position: absolute;
+    left: 7px;
+    top: 503px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    color: #47465A;
+    text-decoration: none;
+}
+
+/* Login button */
+.login-btn {
+    position: absolute;
+    width: 855px;
+    height: 80px;
+    background: #47465A;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    text-align: center;
+    color: #FFE8C2;
+    cursor: pointer;
+}
+
+.login-btn_login {
+    top: 579px;
+}
+
+.login-btn_sign_up {
+    top: 645px;
+}
+
+/* Separator */
+.separator {
+    position: absolute;
+    width: 855px;
+    height: 61px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.separator_login{
+    top: 690px;
+}
+
+.separator_sign_up{
+    top: 756px;
+}
+
+.or {
+    font-family: 'Rammetto One', cursive;
+    font-size: 36px;
+    color: #47465A;
+    padding: 0 10px;
+}
+
+.line {
+    width: 380px;
+    border: 1px solid #000000;
+}
+
+.left {
+    transform: rotate(-0.14deg);
+}
+
+.right {
+    transform: rotate(-0.14deg);
+}
+
+/* Google login button */
+.google-btn {
+    position: absolute;
+    left: 7px;
+    width: 855px;
+    height: 80px;
+    border-radius: 12px;
+    border: none;
+    background: #d9d9d9;
+    background-blend-mode: normal;
+    font-family: 'Raleway', sans-serif;
+    font-size: 36px;
+    text-align: center;
+    color: #47465A;
+    cursor: pointer;
+}
+
+.google-btn_log{
+    top: 774px;
+}
+
+.google-btn_sign_up{
+    top: 840px;
+}
+
+.task_menager {
+    position: absolute;
+    width: 1440px;
+    height: 1024px;
+    /*width: 1055px;*/
+    background: #ffe8c2;
+    font-size: 36px;
+}
+
+.task_menager_title{
+    position: absolute;
+    left: 5%;
+    top: 0;
+    color: #47465a;
+    font-family: "Rammetto One", cursive;
+    font-size: 96px;
+}
+
+.add_task{
+    position: absolute;
+    left: 23px;
+    top: 184px;
+    width: 495px;
+    height: 807px;
+}
+
+.tm_titles{
+    position: absolute;
+    width: 100%;
+    height: 87px;
+    border-radius: 44px;
+    background: #d9d9d9;
+    background-blend-mode: normal;
+    display: flex;
+    justify-content: center;
+}
+
+.titles_text{
+    position: absolute;
+    top: 20px;
+    width: 193px;
+    height: 41px;
+    color: #47465a;
+    font-family: "Raleway", sans-serif;
+    font-size: 42px;
+}
+
+.tm_content{
+    position: absolute;
+    top: 103px;
+    width: 100%;
+    height: 703px;
+    background: #47465a;
+    background-blend-mode: normal;
+}
+
+.add_task_content_field{
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    width: 441px;
+    height: 61px;
+    border-radius: 44px;
+    background: #d9d9d9;
+    background-blend-mode: normal;
+    color: #47465a;
+    font-family: "Raleway", sans-serif;
+    font-size: 36px;
+    padding-left: 30px;
+}
+
+.add_task_content_field_title{
+    top: 13px;
+}
+
+.add_task_content_field_priority{
+    top: 95px;
+    width: 471px;
+}
+
+.add_task_content_field_date{
+    top: 176px;
+}
+
+.add_task_content_field_description{
+    top: 257px;
+    height: 308px;
+}
+
+.add_task_content_field_btn{
+    position: absolute;
+    top: 595px;
+    width: 184px;
+    height: 64px;
+    border-radius: 44px;
+    background: #d9d9d9;
+    background-blend-mode: normal;
+    color: #47465a;
+    font-family: "Raleway", sans-serif;
+    font-size: 36px;
+    text-align: center;
+}
+
+.add_task_content_field_btn_save{
+    left: 32px;
+}
+
+.add_task_content_field_btn_cancel{
+    left: 252px;
+}
+
+.all_tasks{
+    position: absolute;
+    left: 533px;
+    top: 182px;
+    width: 880px;
+    height: 809px;
+}
+
+.one_task {
+    position: relative;
+    top: 7px;
+    left: 10px;
+    width: 856px;
+    height: 50px;
+    border-radius: 44px;
+    background: #d9d9d9;
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
