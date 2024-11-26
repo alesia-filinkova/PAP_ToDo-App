@@ -24,6 +24,9 @@ public class TodoServiceImpl implements TodoService {
         todo.setTitle(todoDto.getTitle());
         todo.setDescription(todoDto.getDescription());
         todo.setUser(CurrentUser.user);
+        todo.setDeadline(todoDto.getDeadline());
+        todo.setPriority(todoDto.getPriority());
+
         todoRepository.save(todo);
     }
 
@@ -51,6 +54,8 @@ public class TodoServiceImpl implements TodoService {
         todo.setTitle(todoDto.getTitle());
         todo.setDescription(todoDto.getDescription());
         todo.setCompleted(todoDto.getCompleted());
+        todo.setDeadline(todoDto.getDeadline());
+        todo.setPriority(todoDto.getPriority());
 
         Todo updatedTodo = todoRepository.save(todo);
 
@@ -78,7 +83,9 @@ public class TodoServiceImpl implements TodoService {
                 todo.getId(),
                 todo.getTitle(),
                 todo.getDescription(),
-                todo.getCompleted()
+                todo.getCompleted(),
+                todo.getDeadline(),
+                todo.getPriority()
         );
 
         return todoDto;
@@ -90,7 +97,9 @@ public class TodoServiceImpl implements TodoService {
                 todoDto.getTitle(),
                 todoDto.getDescription(),
                 todoDto.getCompleted(),
-                CurrentUser.user
+                CurrentUser.user,
+                todoDto.getDeadline(),
+                todoDto.getPriority()
         );
         return todo;
     }

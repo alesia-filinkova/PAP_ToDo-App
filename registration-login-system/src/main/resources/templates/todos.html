@@ -29,6 +29,8 @@
                         class="add_task_content_field add_task_content_field_priority"
                         placeholder="Priority"
                         name="priority"
+                        id="priority"
+                        th:field="*{priority}"
                 >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -38,7 +40,8 @@
                         type="date"
                         class="add_task_content_field add_task_content_field_date"
                         placeholder="Completion Date"
-                        name="completionDate"
+                        name="deadline"
+                        th:field="*{deadline}"
                 />
                 <textarea
                         class="add_task_content_field add_task_content_field_description"
@@ -68,6 +71,8 @@
                     <td th:text = "${todo.title}"></td>
                     <td th:text = "${todo.description}"></td>
                     <td th:text = "${todo.completed}"></td>
+                    <td th:text = "${todo.deadline}"></td>
+                    <td th:text = "${todo.priority}"></td>
                     <td>
                         <a class="btn btn-danger" th:href="@{/todos/{todoId}/delete(todoId=${todo.id})}">Delete</a>
                     </td>
