@@ -34,6 +34,7 @@ public class SpringSecurity {
                 .requestMatchers("/todos/**").permitAll()
                 .requestMatchers("/addTodo/**").permitAll()
                 .requestMatchers("/addTodo/save").permitAll()
+                .requestMatchers("/notes/**").permitAll()
                 //.requestMatchers("/users").hasRole("USER")
                 .requestMatchers("/css/**").permitAll()
                 .and()

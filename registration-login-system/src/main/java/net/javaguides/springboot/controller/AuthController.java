@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import net.javaguides.springboot.dto.NoteDto;
+import net.javaguides.springboot.service.NoteService;
+
 import java.util.List;
 
 @Controller
@@ -23,11 +26,13 @@ public class AuthController {
 
     private final UserService userService;
     private final TodoService todoService;
+    private final NoteService noteService;
     private final RegistrationLoginSystemApplication registrationLoginSystemApplication;
 
-    public AuthController(UserService userService, TodoService todoService, RegistrationLoginSystemApplication registrationLoginSystemApplication) {
+    public AuthController(UserService userService, TodoService todoService, RegistrationLoginSystemApplication registrationLoginSystemApplication, NoteService noteService) {
         this.userService = userService;
         this.todoService = todoService;
+        this.noteService = noteService;
         this.registrationLoginSystemApplication = registrationLoginSystemApplication;
     }
 
@@ -54,10 +59,10 @@ public class AuthController {
                                Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null,
-                    "There is already an account registered with the same email");
-        }
+//        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+//            result.rejectValue("email", null,
+//                    "There is already an account registered with the same email");
+//        }
 
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
@@ -108,5 +113,26 @@ public class AuthController {
         todoService.deleteTodo(todoId);
         return "redirect:/todos";
     }
+
+    @GetMapping("/notes")
+    public String notes(Model model) {
+        List<NoteDto> notes = noteService.getAllNotesByUser();
+        model.addAttribute("notes", notes);
+        model.addAttribute("note", new NoteDto());
+        return "notes";
+    }
+
+    @PostMapping("/notes/save")
+    public String addNote(@ModelAttribute("note") NoteDto noteDto) {
+        noteService.addNote(noteDto);
+        return "redirect:/notes";
+    }
+
+    @GetMapping("/notes/{id}/delete")
+    public String deleteNote(@PathVariable Long id) {
+        noteService.deleteNoteById(id);
+        return "redirect:/notes";
+    }
+
 }
 
