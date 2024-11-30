@@ -119,6 +119,15 @@ public class AuthController {
         return "redirect:/notes";
     }
 
+    @PostMapping("/notes/{id}/update")
+    public ResponseEntity<Void> updateNote(@PathVariable Long id, @RequestBody NoteDto noteDto) {
+        try {
+            NoteDto updatedNote = noteService.updateNote(noteDto, id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
 
     @DeleteMapping("/notes/{id}/delete")
     public ResponseEntity<Void> deleteNoteById(@PathVariable Long id) {
