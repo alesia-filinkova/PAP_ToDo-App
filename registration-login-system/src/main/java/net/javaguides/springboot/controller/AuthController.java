@@ -4,20 +4,16 @@ import jakarta.validation.Valid;
 import net.javaguides.springboot.RegistrationLoginSystemApplication;
 import net.javaguides.springboot.dto.TodoDto;
 import net.javaguides.springboot.dto.UserDto;
-import net.javaguides.springboot.entity.Todo;
+import net.javaguides.springboot.dto.NoteDto;
 import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.service.TodoService;
 import net.javaguides.springboot.service.UserService;
+import net.javaguides.springboot.service.NoteService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import net.javaguides.springboot.dto.NoteDto;
-import net.javaguides.springboot.service.NoteService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -82,10 +78,8 @@ public class AuthController {
 
     @GetMapping("/todos")
     public String todos(Model model) {
-
         List<TodoDto> todos = todoService.getAllTodosByUser();
         model.addAttribute("todos", todos);
-
         model.addAttribute("todo", new TodoDto());
         return "todos";
     }
@@ -94,8 +88,6 @@ public class AuthController {
     public String addTodo(@Valid @ModelAttribute("todo") TodoDto todo,
                           BindingResult result,
                           Model model) {
-
-
         if (result.hasErrors()) {
             List<TodoDto> todos = todoService.getAllTodosByUser();
             model.addAttribute("todos", todos);
@@ -104,7 +96,6 @@ public class AuthController {
         }
 
         todoService.addTodo(todo);
-
         return "redirect:/todos";
     }
 
@@ -128,11 +119,14 @@ public class AuthController {
         return "redirect:/notes";
     }
 
-    @GetMapping("/notes/{id}/delete")
-    public String deleteNote(@PathVariable Long id) {
-        noteService.deleteNoteById(id);
-        return "redirect:/notes";
+
+    @DeleteMapping("/notes/{id}/delete")
+    public ResponseEntity<Void> deleteNoteById(@PathVariable Long id) {
+        try {
+            noteService.deleteNoteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
-
 }
-
