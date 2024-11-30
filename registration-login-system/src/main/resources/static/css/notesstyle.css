@@ -2,8 +2,6 @@ body {
     background-color: #FFE8C2;
     display: flex;
     justify-content: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
 }
 
 .notes_container {
@@ -13,6 +11,8 @@ body {
     gap: 30px;
     width: 90%;
     max-width: 1500px;
+    background: #FFE8C2;
+    position: absolute;
 }
 
 .all_tasks {

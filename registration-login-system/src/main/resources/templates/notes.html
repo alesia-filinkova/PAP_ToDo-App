@@ -56,7 +56,6 @@
                 <h2 id="note_title"></h2>
                 <textarea id="note_content_edit" class="add_task_content_field"></textarea>
                 <button onclick="saveEditedNote()" class="btn">Save</button>
-                <button onclick="backToAddNote()" class="btn">Back</button>
             </div>
         </div>
     </div>
@@ -67,7 +66,7 @@
         document.getElementById('add_note_form').style.display = 'block';
         document.getElementById('note_details').style.display = 'none';
         document.getElementById('title').value = '';
-        document.getElementById('content').value = ' ';
+        document.getElementById('content').value = '';
     }
 
     function openNoteForEditing(element) {
@@ -76,33 +75,40 @@
 
         const noteId = element.parentNode.getAttribute('data-id');
         const noteTitle = element.parentNode.getAttribute('data-title') || 'Untitled';
-        const noteContent = element.parentNode.getAttribute('data-content') || ' ';
+        const noteContent = element.parentNode.getAttribute('data-content') || '';
 
         document.getElementById('note_title').innerText = noteTitle;
         document.getElementById('note_content_edit').value = noteContent;
         document.getElementById('note_content_edit').setAttribute('data-id', noteId);
     }
 
-    function saveEditedNote() {
+    async function saveEditedNote() {
         const noteId = document.getElementById('note_content_edit').getAttribute('data-id');
+        const noteTitle = document.getElementById('note_title').innerText;
         const noteContent = document.getElementById('note_content_edit').value;
 
-        const noteItem = document.querySelector(`.note_item[data-id="${noteId}"]`);
-        if (noteItem) {
-            noteItem.setAttribute('data-content', noteContent);
-        }
-
-        fetch(`/notes/${noteId}/update`, {
+        const response = await fetch(`/notes/${noteId}/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                title: noteTitle,
                 content: noteContent,
             }),
         });
 
-        backToAddNote();
+        if (response.ok) {
+            const noteItem = document.querySelector(`.note_item[data-id="${noteId}"]`);
+            if (noteItem) {
+                noteItem.setAttribute('data-title', noteTitle);
+                noteItem.setAttribute('data-content', noteContent);
+                noteItem.querySelector('.note_title').innerText = noteTitle;
+            }
+            backToAddNote();
+        } else {
+            alert('Error when saving a note');
+        }
     }
 
     async function deleteNote(element) {
@@ -113,6 +119,8 @@
             const response = await fetch(deleteUrl, { method: 'DELETE' });
             if (response.ok) {
                 element.remove();
+            } else {
+                alert('Error when deleting a note!');
             }
         }
     }
