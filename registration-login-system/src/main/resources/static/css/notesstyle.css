@@ -1,0 +1,143 @@
+body {
+    background-color: #FFE8C2;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.notes_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    width: 90%;
+    max-width: 1500px;
+}
+
+.all_tasks {
+    flex: 1;
+    background: #FFE8C2;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.add_task {
+    flex: 2;
+    background: #FFE8C2;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили заголовка и кнопки + */
+.tm_titles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.tm_titles .titles_text {
+    font-size: 1.5em;
+    font-family: "Rammetto One", cursive;
+    font-weight: bold;
+    color: #47465a;
+}
+
+.add_note_btn {
+    background-color: #c44900;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.add_note_btn:hover {
+    background-color: #a03700;
+}
+
+.tm_content {
+    padding: 15px;
+    background-color: #f4d19b;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note_item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #d3c3a3;
+    color: #5a6d7b;
+    transition: background-color 0.3s ease;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note_item:hover {
+    background-color: #ece3cd;
+}
+
+.delete_note_btn {
+    background: none;
+    border: none;
+    color: #c44900;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.delete_note_btn:hover {
+    color: #a03700;
+}
+
+.add_task_content_field {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #c2a878;
+    border-radius: 8px;
+    font-size: 1em;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.add_task_content_field_btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #5a6d7b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.add_task_content_field_btn:hover {
+    background-color: #3e4f58;
+}
+
+.note_details {
+    background-color: #ece3cd;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    resize: none;
+}
