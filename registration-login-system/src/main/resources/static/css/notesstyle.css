@@ -4,7 +4,19 @@ body {
     justify-content: center;
 }
 
+h1 {
+    left: 150px;
+    position: absolute;
+    margin: auto;
+    width: 855px;
+    height: 208px;
+    color: #47465a;
+    text-align: center;
+    font-family: "Rammetto One", cursive;
+    font-size: 64px;
+}
 .notes_container {
+    margin-top: 100px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -32,7 +44,7 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили заголовка и кнопки + */
+
 .tm_titles {
     display: flex;
     align-items: center;
@@ -48,7 +60,7 @@ body {
 }
 
 .add_note_btn {
-    background-color: #c44900;
+    background-color: #47465a;
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -61,7 +73,7 @@ body {
 }
 
 .add_note_btn:hover {
-    background-color: #a03700;
+    background-color: #5a6d7b;
 }
 
 .tm_content {
@@ -90,7 +102,7 @@ body {
 .delete_note_btn {
     background: none;
     border: none;
-    color: #c44900;
+    color: #47465a;
     font-size: 1.2em;
     cursor: pointer;
     margin-left: 10px;
@@ -98,14 +110,14 @@ body {
 }
 
 .delete_note_btn:hover {
-    color: #a03700;
+    color: #5a6d7b;
 }
 
 .add_task_content_field {
     width: calc(100% - 20px);
     padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #c2a878;
+    border: 1px solid #f4d19b;
     border-radius: 8px;
     font-size: 1em;
     outline: none;
@@ -115,7 +127,7 @@ body {
 .add_task_content_field_btn {
     width: 100%;
     padding: 15px;
-    background-color: #5a6d7b;
+    background-color: #47465a;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -128,16 +140,38 @@ body {
 }
 
 .add_task_content_field_btn:hover {
-    background-color: #3e4f58;
+    background-color: #5a6d7b;
 }
 
 .note_details {
-    background-color: #ece3cd;
+    background-color: #FFE8C2;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 textarea {
-    resize: none;
+    width: 100%;
+    height: 300px;
+}
+
+.top-right-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    background-color: #47465a;
+    color: #FFE8C2;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.top-right-button:hover {
+    background-color: #d9d9d9;
+    color: #47465a;
 }
