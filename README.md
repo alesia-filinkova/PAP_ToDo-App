@@ -4,7 +4,15 @@
  Katsyaryna Anikevich,
  Alesia Filinkova,
  Sofiya Yedzeika,
-
+-----------------------------------
+Uruchomienie projektu
+*Wymagania wstępne:
+    Projekt wymaga zainstalowanego środowiska Java w wersji 17 lub nowszej.
+*Aby uruchomić projekt, należy wykonać główną klasę aplikacji:
+    RegistrationLoginSystemApplication. (Klasa znajduje się w katalogu src/main/java.)
+*Dostęp do aplikacji:
+    Po uruchomieniu projektu aplikacja będzie dostępna pod adresem:
+    http://localhost:8080/login
 -----------------------------------
 Etapy:
 1.podział na zespoły, ustalenie tematu, dostarczenie dokumentu z wymaganiami
