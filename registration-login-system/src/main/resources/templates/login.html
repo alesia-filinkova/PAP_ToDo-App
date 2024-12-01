@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
@@ -12,7 +10,6 @@
 <body>
 
 <div class="container">
-
     <div class="title">Log in</div>
 
     <span class="not_have_account">
@@ -22,22 +19,12 @@
 
     <form method="post" th:action="@{/login}" role="form" class="form-horizontal">
         <div>
-            <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    class="input-field username"
-                    placeholder="enter user name/email">
-            <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="input-field password"
-                    placeholder="enter password">
+            <input type="text" id="username" name="username" class="input-field username" placeholder="enter user name/email">
+            <input type="password" id="password" name="password" class="input-field password" placeholder="enter password">
         </div>
 
         <!-- Forgot password link -->
-        <a href="#" class="forgot-password">Forgot your password?</a>
+        <a href="/forgot-password" class="forgot-password">Forgot your password?</a>
 
         <div>
             <button type="submit" class="login-btn login-btn_login">Login</button>
@@ -53,9 +40,7 @@
     <div>
         <button class="google-btn google-btn_log">Login with Google</button>
     </div>
-
 </div>
-
 
 </body>
 </html>
