@@ -1,7 +1,9 @@
 package net.javaguides.springboot.controller;
 
 import jakarta.validation.Valid;
+import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.RegistrationLoginSystemApplication;
+import net.javaguides.springboot.dto.SettingsDto;
 import net.javaguides.springboot.dto.TodoDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.dto.NoteDto;
@@ -9,12 +11,15 @@ import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.service.TodoService;
 import net.javaguides.springboot.service.UserService;
 import net.javaguides.springboot.service.NoteService;
+import net.javaguides.springboot.service.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+ 
 import java.util.List;
 
 @Controller
@@ -24,12 +29,14 @@ public class AuthController {
     private final TodoService todoService;
     private final NoteService noteService;
     private final RegistrationLoginSystemApplication registrationLoginSystemApplication;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, TodoService todoService, RegistrationLoginSystemApplication registrationLoginSystemApplication, NoteService noteService) {
+    public AuthController(UserService userService, TodoService todoService, RegistrationLoginSystemApplication registrationLoginSystemApplication, NoteService noteService,PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.todoService = todoService;
         this.noteService = noteService;
         this.registrationLoginSystemApplication = registrationLoginSystemApplication;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/index")
@@ -137,5 +144,36 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
+    }
+
+    @GetMapping("/settings")
+    public String setting(Model model) {
+        UserDto userDto = new UserDto();
+        userDto.setId(CurrentUser.user.getId());
+        userDto.setName(CurrentUser.user.getName());
+        userDto.setEmail(CurrentUser.user.getEmail());
+        userDto.setPassword(CurrentUser.user.getPassword());
+        model.addAttribute("user", userDto);
+        return "settings";
+    }
+
+
+    @PostMapping("/settings/save")
+    public String settings2(@Valid @ModelAttribute("user") SettingsDto user,
+                               BindingResult result,
+                               Model model) {
+        User existingUser = userService.findUserByEmail(user.getEmail());
+
+        if ((existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) && existingUser.getId() != null && !existingUser.getId().equals(CurrentUser.user.getId())) {
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "settings";
+        }
+        userService.updateUserInformation(user);
+        return "redirect:/settings?success";
     }
 }

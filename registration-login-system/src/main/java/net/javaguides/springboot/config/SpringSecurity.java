@@ -36,6 +36,7 @@ public class SpringSecurity {
                 .requestMatchers("/notes/**").permitAll()
                 //.requestMatchers("/users").hasRole("USER")
                 .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/settings/**").permitAll()
                 .and()
                 .formLogin(
                         form -> form

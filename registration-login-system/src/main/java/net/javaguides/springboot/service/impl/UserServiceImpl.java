@@ -1,5 +1,7 @@
 package net.javaguides.springboot.service.impl;
 
+import net.javaguides.springboot.CurrentUser;
+import net.javaguides.springboot.dto.SettingsDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Role;
 import net.javaguides.springboot.entity.User;
@@ -45,6 +47,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUserInformation(SettingsDto settingsDto) {
+        if(settingsDto.getName().isEmpty()){
+            CurrentUser.user.setName(settingsDto.getName());
+        }
+        if(settingsDto.getEmail().isEmpty()){
+            CurrentUser.user.setEmail(settingsDto.getEmail());
+        }
+        if(!settingsDto.getPassword().isEmpty()){
+            CurrentUser.user.setPassword(passwordEncoder.encode(settingsDto.getPassword()));
+        }
+        userRepository.save(CurrentUser.user);
+    }
+
+
+    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -59,8 +76,10 @@ public class UserServiceImpl implements UserService {
 
     private UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
         return userDto;
     }
 
