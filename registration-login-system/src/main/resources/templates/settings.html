@@ -22,46 +22,46 @@
 
 
   <!-- Input fields -->
-  <form  method="post" th:action="@{/settings/save}" th:object="${user}" role="form" class="form-horizontal">
-    <div>
-      <input
-              type="text"
-              id="name"
-              name="Name"
-              class="input-field name"
-              placeholder="Name"
-              th:field="*{name}" />
-      <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+<!--  <form  method="post" th:action="@{/settings/save}" th:object="${user}" role="form" class="form-horizontal">-->
+<!--    <div>-->
+<!--      <input-->
+<!--              type="text"-->
+<!--              id="name"-->
+<!--              name="Name"-->
+<!--              class="input-field name"-->
+<!--              placeholder="Name"-->
+<!--              th:field="*{name}" />-->
+<!--      <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>-->
 
-      <input
-              type="email"
-              id="email"
-              name="email"
-              class="input-field email"
-              placeholder="Email"
-              th:field="*{email}" />
-      <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+<!--      <input-->
+<!--              type="email"-->
+<!--              id="email"-->
+<!--              name="email"-->
+<!--              class="input-field email"-->
+<!--              placeholder="Email"-->
+<!--              th:field="*{email}" />-->
+<!--      <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>-->
 
-      <input
-              type="password"
-              id="password"
-              name="password"
-              class="input-field create_password"
-              placeholder="Change your password"
-              th:field="*{password}" />
-      <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
-    </div>
+<!--      <input-->
+<!--              type="password"-->
+<!--              id="password"-->
+<!--              name="password"-->
+<!--              class="input-field create_password"-->
+<!--              placeholder="Change your password"-->
+<!--              th:field="*{password}" />-->
+<!--      <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>-->
+<!--    </div>-->
 
     <!-- Register button -->
-    <div>
-      <button type="submit" class="login-btn login-btn_sign_up">Save changes</button>
-    </div>
+<!--    <div>-->
+<!--      <button type="submit" class="login-btn login-btn_sign_up">Save changes</button>-->
+<!--    </div>-->
 
-    <br/>
-    <br/>
-    <div>
-      <a class="sign_up_button" th:href="@{/logout}">Logout</a>
-    </div>
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <div>-->
+<!--      <a class="sign_up_button" th:href="@{/logout}">Logout</a>-->
+<!--    </div>-->
 
 
   </form>
