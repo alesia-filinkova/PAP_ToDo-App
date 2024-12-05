@@ -3,30 +3,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version>
+		<version>3.3.5</version> <!-- Upewnij się, że masz odpowiednią wersję Spring Boot -->
 		<relativePath/>
-		<!--  lookup parent from repository  -->
 	</parent>
 	<groupId>net.javaguides</groupId>
 	<artifactId>login-register-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>login-register-project</name>
 	<description>Demo project for Spring Boot Login Project</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>21</java.version> <!-- Java 21, kompatybilne z Spring Boot 3.x -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -68,6 +54,19 @@
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>19.8.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>6.0.0</version> <!-- Upewnij się, że wersja jest kompatybilna z Spring Boot 3.x -->
+			<scope>test</scope>
+		</dependency>
+		<!-- Zmiana z javax.servlet-api na jakarta.servlet-api -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version> <!-- Użyj odpowiedniej wersji dla Spring 3.x -->
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
