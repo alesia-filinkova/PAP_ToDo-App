@@ -18,7 +18,7 @@
             <div class="titles_text">Add Task</div>
         </div>
         <div class="tm_content">
-            <form method="post" role="form" th:action="@{/todos/save}" th:object="${todo}">
+            <form method="post" role="form" th:action="@{/todos/save}" th:object="${todo}" id="addTaskForm">
                 <input
                         type="text"
                         class="add_task_content_field add_task_content_field_title"
@@ -62,6 +62,14 @@
             </form>
         </div>
     </div>
+    <script>
+        function clearFields() {
+            const form = document.getElementById('addTaskForm');
+            if (form) {
+                form.reset();
+            }
+        }
+    </script>
     <div class="all_tasks">
         <div class="tm_titles">
             <div class="titles_text">All Tasks</div>
