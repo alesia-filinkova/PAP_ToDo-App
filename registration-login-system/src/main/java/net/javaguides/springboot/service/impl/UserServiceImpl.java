@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInformation(SettingsDto settingsDto) {
-        if(settingsDto.getName().isEmpty()){
+        if(settingsDto.getName()!=null && !settingsDto.getName().isEmpty()){
             CurrentUser.user.setName(settingsDto.getName());
         }
-        if(settingsDto.getEmail().isEmpty()){
+        if(settingsDto.getEmail()!=null && !settingsDto.getEmail().isEmpty()){
             CurrentUser.user.setEmail(settingsDto.getEmail());
         }
         if(!settingsDto.getPassword().isEmpty()){
