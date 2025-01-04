@@ -14,4 +14,6 @@ public interface UserService {
     User findUserByEmail(String email);
 
     List<UserDto> findAllUsers();
+    void sendPasswordResetToken(String email);
+    void resetPassword(String token, String newPassword);
 }
