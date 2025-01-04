@@ -34,9 +34,10 @@ public class SpringSecurity {
                 .requestMatchers("/todos/**").permitAll()
                 .requestMatchers("/todos/save").permitAll()
                 .requestMatchers("/notes/**").permitAll()
-                //.requestMatchers("/users").hasRole("USER")
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/settings/**").permitAll()
+                .requestMatchers("/forgot-password").permitAll()  // Dodane pozwolenie dla strony resetowania hasła
+                .requestMatchers("/reset-password").permitAll()  // Pozwolenie dla strony zmiany hasła
                 .and()
                 .formLogin(
                         form -> form
@@ -48,7 +49,6 @@ public class SpringSecurity {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-
                 );
 
         return http.build();

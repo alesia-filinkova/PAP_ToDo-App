@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
- 
+
 import java.util.List;
 
 @Controller
@@ -150,11 +150,10 @@ public class AuthController {
         return "settings";
     }
 
-
     @PostMapping("/settings/save")
     public String settings2(@Valid @ModelAttribute("user") SettingsDto user,
-                               BindingResult result,
-                               Model model) {
+                            BindingResult result,
+                            Model model) {
         User existingUser = userService.findUserByEmail(user.getEmail());
 
         if ((existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) && existingUser.getId() != null && !existingUser.getId().equals(CurrentUser.user.getId())) {
@@ -169,4 +168,22 @@ public class AuthController {
         userService.updateUserInformation(user);
         return "redirect:/settings?success";
     }
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        userService.sendPasswordResetToken(email);
+        return ResponseEntity.ok("Password reset email sent!");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        userService.resetPassword(token, newPassword);
+        return ResponseEntity.ok("Password has been reset successfully!");
+    }
+
 }
