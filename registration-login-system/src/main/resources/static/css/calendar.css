@@ -65,8 +65,8 @@ a.btn:hover {
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 kolumn dla dni tygodnia */
-    gap: 10px; /* odstępy między komórkami */
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
     justify-items: stretch;
     padding: 10px 0;
 }
@@ -98,21 +98,21 @@ a.btn:hover {
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);  /* 7 kolumn */
-    grid-template-rows: repeat(6, 1fr);  /* 6 rzędów */
-    gap: 5px;  /* Odstępy między komórkami */
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
     padding: 10px 0;
     width: 100%;
 }
 
 .calendar-cell.empty {
-    background-color: transparent; /* Puste komórki są przezroczyste */
+    background-color: transparent;
     border: none;
 }
 
 
 #days-container {
-    display: contents;  /* Pozwala wypełnić siatkę bez dodatkowego div-a */
+    display: contents;
 }
 
 .calendar-cell {
@@ -121,7 +121,7 @@ a.btn:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;  /* Wysokość komórek */
+    height: 100px;
     text-align: center;
 }
 

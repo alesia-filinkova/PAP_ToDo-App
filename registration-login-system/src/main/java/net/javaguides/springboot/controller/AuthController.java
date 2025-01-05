@@ -200,11 +200,9 @@ public class AuthController {
 
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User principal) {
-        // Получаем email пользователя из данных Google
         String email = principal.getAttribute("email");
         String name = principal.getAttribute("name");
 
-        // Ищем пользователя в базе данных
         User existingUser = userService.findUserByEmail(email);
 
         if (existingUser == null) {
@@ -230,7 +228,7 @@ public class AuthController {
 
     @GetMapping("/oauth2/error")
     public String oauth2Error() {
-        return "error"; // Перенаправляем на страницу ошибки (например, error.html)
+        return "error";
     }
 
 

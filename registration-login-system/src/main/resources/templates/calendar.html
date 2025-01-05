@@ -51,16 +51,14 @@
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysContainer = document.getElementById('days-container');
 
-    daysContainer.innerHTML = "";  // Czyszczenie siatki dni
+    daysContainer.innerHTML = "";
 
-    // Dodawanie pustych komórek przed pierwszym dniem miesiąca
     for (let i = 0; i < firstDayOfMonth; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('calendar-cell', 'empty');
         daysContainer.appendChild(emptyCell);
     }
 
-    // Dodawanie komórek dla każdego dnia miesiąca
     for (let i = 1; i <= daysInMonth; i++) {
         const dayCell = document.createElement('div');
         dayCell.classList.add('calendar-cell');
@@ -68,9 +66,8 @@
         daysContainer.appendChild(dayCell);
     }
 
-    // Wypełnienie pustych komórek na końcu
     const totalCells = firstDayOfMonth + daysInMonth;
-    const remainingCells = 42 - totalCells; // 6 rzędów x 7 dni = 42
+    const remainingCells = 42 - totalCells;
     for (let i = 0; i < remainingCells; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('calendar-cell', 'empty');
