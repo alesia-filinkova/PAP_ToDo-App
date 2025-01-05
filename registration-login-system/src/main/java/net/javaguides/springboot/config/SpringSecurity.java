@@ -48,7 +48,6 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .usernameParameter("email")
                                 .defaultSuccessUrl("/todos", true)
                                 .permitAll()
                 )
