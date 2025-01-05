@@ -1,5 +1,6 @@
 package net.javaguides.springboot.config;
 
+import net.javaguides.springboot.security.GoogleAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +20,14 @@ public class SpringSecurity {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private GoogleAuthSuccessHandler googleAuthSuccessHandler;
+
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // configure SecurityFilterChain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -36,19 +39,28 @@ public class SpringSecurity {
                 .requestMatchers("/notes/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/settings/**").permitAll()
-                .requestMatchers("/forgot-password").permitAll()  // Dodane pozwolenie dla strony resetowania hasła
-                .requestMatchers("/reset-password").permitAll()  // Pozwolenie dla strony zmiany hasła
+                .requestMatchers("/forgot-password").permitAll()
+                .requestMatchers("/reset-password").permitAll()
+                .requestMatchers("/oauth2/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
+                                .usernameParameter("email")
                                 .defaultSuccessUrl("/todos", true)
                                 .permitAll()
-                ).logout(
+                )
+                .logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/oauth2/success", true)
+
                 );
 
         return http.build();
@@ -59,4 +71,6 @@ public class SpringSecurity {
         builder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
+
 }
