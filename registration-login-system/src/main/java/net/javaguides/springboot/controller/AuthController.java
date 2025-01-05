@@ -186,4 +186,15 @@ public class AuthController {
         return ResponseEntity.ok("Password has been reset successfully!");
     }
 
+    @GetMapping("/calendar")
+    public String showCalendarPage() {
+        return "calendar";
+    }
+
+    @GetMapping("/api/tasks")
+        @ResponseBody
+        public List<TodoDto> getTasks() {
+            return todoService.getAllTodosByUser();
+        }
+
 }
