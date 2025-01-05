@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version> <!-- Upewnij się, że masz odpowiednią wersję Spring Boot -->
+		<version>3.3.5</version>
 		<relativePath/>
 	</parent>
 	<groupId>net.javaguides</groupId>
@@ -12,10 +12,10 @@
 	<name>login-register-project</name>
 	<description>Demo project for Spring Boot Login Project</description>
 	<properties>
-		<java.version>21</java.version> <!-- Java 21, kompatybilne z Spring Boot 3.x -->
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
-		<!-- Startery Spring Boot -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -41,21 +41,18 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!-- PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.6.0</version>
 		</dependency>
 
-		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Testowanie -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -67,14 +64,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- JDBC Oracle (opcjonalne, jeśli jest używane w innym miejscu) -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>19.8.0.0</version>
 		</dependency>
 
-		<!-- Jakarta Servlet (dla Spring Boot 3.x) -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>

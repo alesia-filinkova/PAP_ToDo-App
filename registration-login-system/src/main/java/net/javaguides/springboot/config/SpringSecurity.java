@@ -24,7 +24,6 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 
-    // configure SecurityFilterChain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -36,8 +35,8 @@ public class SpringSecurity {
                 .requestMatchers("/notes/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/settings/**").permitAll()
-                .requestMatchers("/forgot-password").permitAll()  // Dodane pozwolenie dla strony resetowania hasła
-                .requestMatchers("/reset-password").permitAll()  // Pozwolenie dla strony zmiany hasła
+                .requestMatchers("/forgot-password").permitAll()
+                .requestMatchers("/reset-password").permitAll()
                 .and()
                 .formLogin(
                         form -> form
