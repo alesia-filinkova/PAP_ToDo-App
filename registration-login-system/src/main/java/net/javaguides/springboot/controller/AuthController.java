@@ -19,6 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
+
+
 
 import java.util.List;
 
@@ -45,9 +50,11 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("oauth2LoginUrl", "/oauth2/authorization/google");
         return "login";
     }
+
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -186,15 +193,46 @@ public class AuthController {
         return ResponseEntity.ok("Password has been reset successfully!");
     }
 
+    @GetMapping("/oauth2/authorization/google")
+    public String redirectToGoogle() {
+        return "redirect:/oauth2/authorization/google";
+    }
+
+    @GetMapping("/oauth2/success")
+    public String oauth2Success(@AuthenticationPrincipal OAuth2User principal) {
+        // Получаем email пользователя из данных Google
+        String email = principal.getAttribute("email");
+        String name = principal.getAttribute("name");
+
+        // Ищем пользователя в базе данных
+        User existingUser = userService.findUserByEmail(email);
+
+        if (existingUser == null) {
+            UserDto newUser = new UserDto();
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setPassword("");
+            userService.saveUser(newUser);
+
+            existingUser = userService.findUserByEmail(email);
+        }
+
+        CurrentUser.user = existingUser;
+
+        return "redirect:/todos";
+    }
+
     @GetMapping("/calendar")
     public String showCalendarPage() {
         return "calendar";
     }
 
-    @GetMapping("/api/tasks")
-        @ResponseBody
-        public List<TodoDto> getTasks() {
-            return todoService.getAllTodosByUser();
-        }
+
+    @GetMapping("/oauth2/error")
+    public String oauth2Error() {
+        return "error"; // Перенаправляем на страницу ошибки (например, error.html)
+    }
+
+
 
 }

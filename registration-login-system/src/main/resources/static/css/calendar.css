@@ -45,7 +45,7 @@ a.btn:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 36px;
 }
 
@@ -65,11 +65,11 @@ a.btn:hover {
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 kolumn */
-    gap: 5px; /* odstępy między dniami */
+    grid-template-columns: repeat(7, 1fr); /* 7 kolumn dla dni tygodnia */
+    gap: 10px; /* odstępy między komórkami */
     justify-items: stretch;
+    padding: 10px 0;
 }
-
 
 .day-header {
     background-color: #4A4A6A;
@@ -83,36 +83,45 @@ a.btn:hover {
 .calendar-cell {
     background-color: #d9d9d9;
     border-radius: 10px;
-    height: 120px; /* Zwiększenie wysokości, aby kwadraty były bardziej równe */
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    position: relative;
     font-size: 18px;
-    padding-top: 10px;
     text-align: center;
+    position: relative;
 }
 
 .calendar-cell.empty {
     background-color: transparent;
 }
 
-.task-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 2px;
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);  /* 7 kolumn */
+    grid-template-rows: repeat(6, 1fr);  /* 6 rzędów */
+    gap: 5px;  /* Odstępy między komórkami */
+    padding: 10px 0;
+    width: 100%;
 }
 
-.task-dot.high {
-    background-color: #FF4A4A;
+.calendar-cell.empty {
+    background-color: transparent; /* Puste komórki są przezroczyste */
+    border: none;
 }
 
-.task-dot.medium {
-    background-color: #FFAA4A;
+
+#days-container {
+    display: contents;  /* Pozwala wypełnić siatkę bez dodatkowego div-a */
 }
 
-.task-dot.low {
-    background-color: #4AFF4A;
+.calendar-cell {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;  /* Wysokość komórek */
+    text-align: center;
 }
+
