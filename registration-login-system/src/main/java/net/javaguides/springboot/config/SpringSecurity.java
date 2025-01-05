@@ -33,7 +33,9 @@ public class SpringSecurity {
                 .requestMatchers("/todos/**").permitAll()
                 .requestMatchers("/todos/save").permitAll()
                 .requestMatchers("/notes/**").permitAll()
-                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/calendar").permitAll()  // Dodaj dostęp do `/calendar`
+                .requestMatchers("/api/tasks").permitAll()  // Dodaj dostęp do `/api/tasks`
+                .requestMatchers("/css/**").permitAll()  // Upewnij się, że pliki CSS są dozwolone
                 .requestMatchers("/settings/**").permitAll()
                 .requestMatchers("/forgot-password").permitAll()
                 .requestMatchers("/reset-password").permitAll()
@@ -52,6 +54,7 @@ public class SpringSecurity {
 
         return http.build();
     }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {

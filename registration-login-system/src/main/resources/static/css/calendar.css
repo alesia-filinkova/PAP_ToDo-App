@@ -1,0 +1,118 @@
+body {
+    background-color: #FFE8C2;
+    font-family: "Raleway", sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Rammetto One", cursive;
+    font-size: 48px;
+    color: #47465A;
+    margin-bottom: 20px;
+}
+
+a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #47465a;
+    color: #FFE8C2;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+a.btn:hover {
+    background-color: #d9d9d9;
+    color: #47465a;
+}
+
+.calendar-month {
+    background-color: #4A4A6A;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 36px;
+}
+
+.nav-btn {
+    background-color: #47465A;
+    color: #FFE8C2;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #d9d9d9;
+    color: #47465A;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 kolumn */
+    gap: 5px; /* odstępy między dniami */
+    justify-items: stretch;
+}
+
+
+.day-header {
+    background-color: #4A4A6A;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.calendar-cell {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    height: 120px; /* Zwiększenie wysokości, aby kwadraty były bardziej równe */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    font-size: 18px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.calendar-cell.empty {
+    background-color: transparent;
+}
+
+.task-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 2px;
+}
+
+.task-dot.high {
+    background-color: #FF4A4A;
+}
+
+.task-dot.medium {
+    background-color: #FFAA4A;
+}
+
+.task-dot.low {
+    background-color: #4AFF4A;
+}
