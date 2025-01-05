@@ -34,14 +34,12 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") }
     )
     private List<Role> roles = new ArrayList<>();
-    // Nowe pola dla funkcji resetowania hasła
     @Column(name = "reset_token")
     private String resetToken;
 
     @Column(name = "token_expiry_date")
     private LocalDateTime tokenExpiryDate;
 
-    // Gettery i settery dla resetToken
     public String getResetToken() {
         return resetToken;
     }
@@ -50,7 +48,6 @@ public class User {
         this.resetToken = resetToken;
     }
 
-    // Gettery i settery dla tokenExpiryDate
     public LocalDateTime getTokenExpiryDate() {
         return tokenExpiryDate;
     }
