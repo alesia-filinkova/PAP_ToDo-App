@@ -21,7 +21,6 @@
             <button class="nav-btn" id="next-month">&rarr;</button>
         </div>
         <div class="calendar-grid">
-            <!-- Nagłówki dni tygodnia -->
             <div class="day-header">Sun</div>
             <div class="day-header">Mon</div>
             <div class="day-header">Tue</div>
@@ -29,10 +28,9 @@
             <div class="day-header">Thu</div>
             <div class="day-header">Fri</div>
             <div class="day-header">Sat</div>
-
-            <!-- Komórki dla dni miesiąca -->
             <div id="days-container"></div>
         </div>
+
     </div>
 </div>
 
@@ -45,44 +43,53 @@
     let currentDate = new Date();
 
     function renderCalendar() {
-        const month = currentDate.getMonth();
-        const year = currentDate.getFullYear();
-        document.getElementById('month-year-display').textContent = `${monthNames[month]} ${year}`;
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    document.getElementById('month-year-display').textContent = `${monthNames[month]} ${year}`;
 
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const daysContainer = document.getElementById('days-container');
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysContainer = document.getElementById('days-container');
 
-        daysContainer.innerHTML = "";  // Czyszczenie dni kalendarza
+    daysContainer.innerHTML = "";  // Czyszczenie siatki dni
 
-        // Dodawanie pustych komórek przed pierwszym dniem miesiąca
-        for (let i = 0; i < firstDayOfMonth; i++) {
-            const emptyCell = document.createElement('div');
-            emptyCell.classList.add('calendar-cell', 'empty');
-            daysContainer.appendChild(emptyCell);
-        }
-
-        // Dodawanie dni miesiąca
-        for (let i = 1; i <= daysInMonth; i++) {
-            const dayCell = document.createElement('div');
-            dayCell.classList.add('calendar-cell');
-            dayCell.id = `day-${i}`;
-            dayCell.textContent = i;
-            daysContainer.appendChild(dayCell);
-        }
+    // Dodawanie pustych komórek przed pierwszym dniem miesiąca
+    for (let i = 0; i < firstDayOfMonth; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('calendar-cell', 'empty');
+        daysContainer.appendChild(emptyCell);
     }
 
-    document.getElementById('prev-month').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-    });
+    // Dodawanie komórek dla każdego dnia miesiąca
+    for (let i = 1; i <= daysInMonth; i++) {
+        const dayCell = document.createElement('div');
+        dayCell.classList.add('calendar-cell');
+        dayCell.textContent = i;
+        daysContainer.appendChild(dayCell);
+    }
 
-    document.getElementById('next-month').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-    });
+    // Wypełnienie pustych komórek na końcu
+    const totalCells = firstDayOfMonth + daysInMonth;
+    const remainingCells = 42 - totalCells; // 6 rzędów x 7 dni = 42
+    for (let i = 0; i < remainingCells; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('calendar-cell', 'empty');
+        daysContainer.appendChild(emptyCell);
+    }
+}
 
-    document.addEventListener('DOMContentLoaded', renderCalendar);
+document.getElementById('prev-month').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+});
+
+document.getElementById('next-month').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+});
+
+document.addEventListener('DOMContentLoaded', renderCalendar);
+
 </script>
 
 </body>
