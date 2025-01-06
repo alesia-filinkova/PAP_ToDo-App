@@ -1,0 +1,142 @@
+body {
+    background-color: #FFE8C2;
+    font-family: "Raleway", sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Rammetto One", cursive;
+    font-size: 48px;
+    color: #47465A;
+    margin-bottom: 20px;
+}
+
+a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #47465a;
+    color: #FFE8C2;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+a.btn:hover {
+    background-color: #d9d9d9;
+    color: #47465a;
+}
+
+.calendar-month {
+    background-color: #4A4A6A;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 36px;
+}
+
+.nav-btn {
+    background-color: #47465A;
+    color: #FFE8C2;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #d9d9d9;
+    color: #47465A;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    justify-items: stretch;
+    padding: 10px 0;
+}
+
+.day-header {
+    background-color: #4A4A6A;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.calendar-cell {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+}
+
+.calendar-cell.empty {
+    background-color: transparent;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.calendar-cell.empty {
+    background-color: transparent;
+    border: none;
+}
+
+
+#days-container {
+    display: contents;
+}
+
+.calendar-cell {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    text-align: center;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 200px;
+    pointer-events: none;
+}
+
+.tooltip.hidden {
+    display: none;
+}

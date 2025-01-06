@@ -200,11 +200,9 @@ public class AuthController {
 
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User principal) {
-        // Получаем email пользователя из данных Google
         String email = principal.getAttribute("email");
         String name = principal.getAttribute("name");
 
-        // Ищем пользователя в базе данных
         User existingUser = userService.findUserByEmail(email);
 
         if (existingUser == null) {
@@ -222,15 +220,30 @@ public class AuthController {
         return "redirect:/todos";
     }
 
-
+    @GetMapping("/calendar")
+    public String showCalendarPage(Model model) {
+        List<TodoDto> todos = todoService.getAllTodosByUser();
+        model.addAttribute("todos", todos);
+        return "calendar";
+    }
 
 
 
     @GetMapping("/oauth2/error")
     public String oauth2Error() {
-        return "error"; // Перенаправляем на страницу ошибки (например, error.html)
+        return "error";
     }
 
+    @GetMapping("/api/todos")
+    @ResponseBody
+    public List<TodoDto> getAllTodosByUser() {
+        List<TodoDto> todos = todoService.getAllTodosByUser();
 
+        for (TodoDto todo : todos) {
+            System.out.println("Zadanie: " + todo.getTitle() + " - Data: " + todo.getDeadline());
+        }
+
+        return todos;
+    }
 
 }

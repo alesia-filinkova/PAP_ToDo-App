@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/calendar.css">
+    <title>Calendar</title>
+</head>
+
+<body>
+<div class="container">
+    <h1>Monthly Planning</h1>
+    <a href="/todos" class="btn">Go back to Task Manager</a>
+    <div class="calendar-month">
+        <div class="calendar-header">
+            <button class="nav-btn" id="prev-month">&larr;</button>
+            <span id="month-year-display"></span>
+            <button class="nav-btn" id="next-month">&rarr;</button>
+        </div>
+        <div class="calendar-grid">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            <div id="days-container"></div>
+        </div>
+    </div>
+</div>
+
+<div id="tooltip" class="tooltip hidden"></div>
+
+<script>
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    let currentDate = new Date();
+    let tasks = {};
+
+    async function fetchTasks() {
+        try {
+            const response = await fetch('/api/todos');
+            if (!response.ok) {
+                console.error("Błąd odpowiedzi serwera:", response.statusText);
+                return;
+            }
+            const data = await response.json();
+            console.log("Pobrane zadania:", data);
+
+            data.forEach(task => {
+                const dateParts = task.dueDate.split("-");
+                const dateKey = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+                if (!tasks[dateKey]) tasks[dateKey] = [];
+                tasks[dateKey].push(task.title);
+            });
+
+            console.log("Przypisane zadania:", tasks);
+        } catch (error) {
+            console.error("Błąd pobierania zadań:", error);
+        }
+    }
+
+    function renderCalendar() {
+        const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+        document.getElementById('month-year-display').textContent = `${monthNames[month]} ${year}`;
+
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysContainer = document.getElementById('days-container');
+
+        daysContainer.innerHTML = "";
+
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.classList.add('calendar-cell', 'empty');
+            daysContainer.appendChild(emptyCell);
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayCell = document.createElement('div');
+            dayCell.classList.add('calendar-cell');
+            dayCell.textContent = i;
+            dayCell.addEventListener("mouseenter", (event) => showTooltip(event, i));
+            dayCell.addEventListener("mouseleave", hideTooltip);
+            daysContainer.appendChild(dayCell);
+        }
+
+        const totalCells = firstDayOfMonth + daysInMonth;
+        const remainingCells = 42 - totalCells; // 6 rzędów x 7 dni = 42
+        for (let i = 0; i < remainingCells; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.classList.add('calendar-cell', 'empty');
+            daysContainer.appendChild(emptyCell);
+        }
+    }
+
+    function showTooltip(event, day) {
+        const tooltip = document.getElementById("tooltip");
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        const dateKey = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        const taskList = tasks[dateKey] || ["There is no tasks"];
+        tooltip.innerHTML = `<strong>Tasks:</strong><ul>${taskList.map(task => `<li>${task}</li>`).join('')}</ul>`;
+        tooltip.style.top = event.clientY + 20 + "px";
+        tooltip.style.left = event.clientX + 20 + "px";
+        tooltip.classList.remove("hidden");
+    }
+
+    function hideTooltip() {
+        document.getElementById("tooltip").classList.add("hidden");
+    }
+
+    document.getElementById('prev-month').addEventListener('click', async () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        await fetchTasks();
+        renderCalendar();
+    });
+
+    document.getElementById('next-month').addEventListener('click', async () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        await fetchTasks();
+        renderCalendar();
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await fetchTasks();
+        renderCalendar();
+    });
+
+</script>
+
+</body>
+
+</html>
