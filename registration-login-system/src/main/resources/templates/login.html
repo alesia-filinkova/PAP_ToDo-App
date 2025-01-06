@@ -39,8 +39,11 @@
     </div>
 
     <div>
-        <a class="google-btn google-btn_log" th:href="@{/oauth2/authorization/google}">Login with Google</a>
+        <form th:action="@{/oauth2/authorization/google}" method="get" style="display: inline;">
+            <button type="submit" class="google-btn google-btn_log">Login with Google</button>
+        </form>
     </div>
+
 </div>
 
 </body>
