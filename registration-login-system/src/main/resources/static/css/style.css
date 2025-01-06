@@ -307,13 +307,13 @@ body {
 }
 
 .top-right-container {
-    position: absolute;  /* Zmień na absolute, aby przyciski były umieszczone względem całej strony */
+    position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
-    flex-direction: column;  /* Przyciski w kolumnie */
-    gap: 10px;  /* Odstęp między przyciskami */
-    z-index: 10;  /* Przenosi kontener nad inne elementy */
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
 }
 
 .top-right-button {
