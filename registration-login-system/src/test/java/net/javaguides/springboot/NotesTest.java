@@ -4,42 +4,22 @@ import net.javaguides.springboot.dto.NoteDto;
 import net.javaguides.springboot.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import net.javaguides.springboot.dto.NoteDto;
 import net.javaguides.springboot.entity.Note;
 import net.javaguides.springboot.repository.NoteRepository;
 import net.javaguides.springboot.service.impl.NoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import net.javaguides.springboot.dto.NoteDto;
 import net.javaguides.springboot.service.NoteService;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import net.javaguides.springboot.entity.Note;
 import net.javaguides.springboot.entity.User;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class NoteDtoTest {
 
