@@ -221,9 +221,12 @@ public class AuthController {
     }
 
     @GetMapping("/calendar")
-    public String showCalendarPage() {
+    public String showCalendarPage(Model model) {
+        List<TodoDto> todos = todoService.getAllTodosByUser();
+        model.addAttribute("todos", todos);
         return "calendar";
     }
+
 
 
     @GetMapping("/oauth2/error")
@@ -231,6 +234,16 @@ public class AuthController {
         return "error";
     }
 
+    @GetMapping("/api/todos")
+    @ResponseBody
+    public List<TodoDto> getAllTodosByUser() {
+        List<TodoDto> todos = todoService.getAllTodosByUser();
 
+        for (TodoDto todo : todos) {
+            System.out.println("Zadanie: " + todo.getTitle() + " - Data: " + todo.getDeadline());
+        }
+
+        return todos;
+    }
 
 }
