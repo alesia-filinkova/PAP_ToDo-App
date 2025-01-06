@@ -55,7 +55,7 @@
             console.log("Pobrane zadania:", data);
 
             data.forEach(task => {
-                const dateParts = task.dueDate.split("-");
+                const dateParts = task.deadline.split("-");
                 const dateKey = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
                 if (!tasks[dateKey]) tasks[dateKey] = [];
                 tasks[dateKey].push(task.title);
