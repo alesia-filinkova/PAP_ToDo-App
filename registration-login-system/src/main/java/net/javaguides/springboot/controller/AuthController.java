@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-
-
-
 import java.util.List;
 
 @Controller
@@ -187,7 +184,7 @@ public class AuthController {
             userService.sendPasswordResetToken(email);
             return "redirect:/emailsend";
         } catch (Exception e) {
-            model.addAttribute("error", "Произошла ошибка. Пожалуйста, попробуйте позже.");
+            model.addAttribute("error", "An error has occurred. Please try again later.");
             return "forgot-password";
         }
     }
@@ -238,7 +235,6 @@ public class AuthController {
         model.addAttribute("todos", todos);
         return "calendar";
     }
-
 
 
     @GetMapping("/oauth2/error")

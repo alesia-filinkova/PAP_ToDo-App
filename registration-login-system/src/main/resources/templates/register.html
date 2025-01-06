@@ -11,17 +11,11 @@
 </head>
 <body>
 <div class="container">
-
-  <!-- Title -->
   <div class="title">Sign up</div>
-
-  <!-- Sign up prompt -->
   <span class="not_have_account">
         Already have an account?
         <a class="sign_up_button" th:href="@{/login}">log in</a>
     </span>
-
-  <!-- Input fields -->
   <form method="post" th:action="@{/register/save}" th:object="${user}" role="form" class="form-horizontal">
     <div>
       <input
@@ -51,30 +45,21 @@
               th:field="*{password}" />
       <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
     </div>
-
-    <!-- Register button -->
     <div>
       <button type="submit" class="login-btn login-btn_sign_up">Sign up</button>
     </div>
   </form>
-
-  <!-- Separator -->
   <div class="separator separator_sign_up">
     <div class="line left"></div>
     <span class="or">or</span>
     <div class="line right"></div>
   </div>
 
-  <!-- Google sign-up button -->
   <div>
     <form th:action="@{/oauth2/authorization/google}" method="get" style="display: inline;">
       <button type="submit" class="google-btn google-btn_log">Sign up with Google</button>
     </form>
   </div>
 </div>
-
-
-
-
 </body>
 </html>

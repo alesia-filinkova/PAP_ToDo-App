@@ -45,26 +45,19 @@
     let tasks = {};
 
     async function fetchTasks() {
-        try {
-            const response = await fetch('/api/todos');
-            if (!response.ok) {
-                console.error("Błąd odpowiedzi serwera:", response.statusText);
-                return;
-            }
-            const data = await response.json();
-            console.log("Pobrane zadania:", data);
-
-            data.forEach(task => {
-                const dateParts = task.deadline.split("-");
-                const dateKey = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
-                if (!tasks[dateKey]) tasks[dateKey] = [];
-                tasks[dateKey].push(task.title);
-            });
-
-            console.log("Przypisane zadania:", tasks);
-        } catch (error) {
-            console.error("Błąd pobierania zadań:", error);
+        const response = await fetch('/api/todos');
+        if (!response.ok) {
+            console.error("Server response error:", response.statusText);
+            return;
         }
+        const data = await response.json();
+
+        data.forEach(task => {
+            const dateParts = task.deadline.split("-");
+            const dateKey = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+            if (!tasks[dateKey]) tasks[dateKey] = [];
+            tasks[dateKey].push(task.title);
+        });
     }
 
     function renderCalendar() {

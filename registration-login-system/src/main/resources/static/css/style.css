@@ -76,7 +76,7 @@ body {
 .create_password{
     top: 516px;
 }
-/* Forgot password link */
+
 .forgot-password {
     position: absolute;
     left: 7px;
@@ -87,7 +87,6 @@ body {
     text-decoration: none;
 }
 
-/* Login button */
 .login-btn {
     position: absolute;
     width: 855px;
@@ -110,7 +109,6 @@ body {
     top: 645px;
 }
 
-/* Separator */
 .separator {
     position: absolute;
     width: 855px;
@@ -148,7 +146,6 @@ body {
     transform: rotate(-0.14deg);
 }
 
-/* Google login button */
 .google-btn {
     position: absolute;
     left: 7px;
