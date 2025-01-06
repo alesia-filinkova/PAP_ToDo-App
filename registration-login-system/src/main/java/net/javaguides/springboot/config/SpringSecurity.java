@@ -44,6 +44,7 @@ public class SpringSecurity {
                 .requestMatchers("/forgot-password").permitAll()
                 .requestMatchers("/reset-password").permitAll()
                 .requestMatchers("/oauth2/**").permitAll()
+                .requestMatchers("/emailsend/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(

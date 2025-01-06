@@ -182,16 +182,28 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        userService.sendPasswordResetToken(email);
-        return ResponseEntity.ok("Password reset email sent!");
+    public String forgotPassword(@RequestParam String email, Model model) {
+        try {
+            userService.sendPasswordResetToken(email);
+            return "redirect:/emailsend";
+        } catch (Exception e) {
+            model.addAttribute("error", "Произошла ошибка. Пожалуйста, попробуйте позже.");
+            return "forgot-password";
+        }
     }
+
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
         userService.resetPassword(token, newPassword);
         return ResponseEntity.ok("Password has been reset successfully!");
     }
+
+    @GetMapping("/emailsend")
+    public String emailsendPage() {
+        return "emailsend";
+    }
+
 
     @GetMapping("/oauth2/authorization/google")
     public String redirectToGoogle() {

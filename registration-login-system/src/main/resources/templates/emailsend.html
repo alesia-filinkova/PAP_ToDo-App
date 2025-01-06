@@ -1,6 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Email Sent</title>
+    <meta charset="UTF-8">
+    <title>Отправка Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FFE8C2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            background: #FFE8C2;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #47465a;
+            font-family: "Rammetto One", cursive;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #47465a;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .redirect-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #47465A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .redirect-button:hover {
+            background-color: #45a049;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: #47465A;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .redirect-button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let countdown = 30;
+            const countdownElement = document.getElementById('countdown');
+
+            const interval = setInterval(() => {
+                if (countdown > 0) {
+                    countdownElement.innerText = countdown;
+                    countdown--;
+                } else {
+                    clearInterval(interval);
+                    window.location.href = '/login';
+                }
+            }, 1000);
+        });
+    </script>
 </head>
+<body>
+<div class="container">
+    <h1>Email Sent</h1>
+    <p>An email has been sent to your address with a link to reset your password.</p>
+    <p>You will be automatically redirected to the login page in <span id="countdown" class="countdown">30</span> seconds.</p>
+    <a th:href="@{/login}" class="redirect-button">Go to Login Page</a>
+</div>
+</body>
 </html>
