@@ -45,20 +45,36 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
 
-        String token = UUID.randomUUID().toString();
-        user.setResetToken(token);
-        user.setTokenExpiryDate(LocalDateTime.now().plusHours(1));
+        String newPassword = generateRandomPassword();
+
+        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        user.setResetToken(null);
+        user.setTokenExpiryDate(null);
         userRepository.save(user);
 
-        String resetUrl = "http://localhost:8080/auth/reset-password?token=" + token;
-        String message = "Click the link to reset your password: " + resetUrl;
+        String message = "Your new password: " + newPassword + "\nLog in and change your password in the settings to your own.";
 
         SimpleMailMessage emailMessage = new SimpleMailMessage();
+        emailMessage.setFrom("sofia.edejko@gmail.com");
         emailMessage.setTo(user.getEmail());
-        emailMessage.setSubject("Password Reset Request");
+        emailMessage.setSubject("Reset password");
         emailMessage.setText(message);
+
         mailSender.send(emailMessage);
     }
+
+    private String generateRandomPassword() {
+        int length = 10;
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = (int) (Math.random() * chars.length());
+            password.append(chars.charAt(index));
+        }
+        return password.toString();
+    }
+
+
 
     @Override
     public void resetPassword(String token, String newPassword) {
