@@ -37,6 +37,8 @@ public class SpringSecurity {
                 .requestMatchers("/todos/**").permitAll()
                 .requestMatchers("/todos/save").permitAll()
                 .requestMatchers("/notes/**").permitAll()
+                .requestMatchers("/calendar").permitAll()
+                .requestMatchers("/api/tasks").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/settings/**").permitAll()
                 .requestMatchers("/forgot-password").permitAll()
@@ -64,6 +66,7 @@ public class SpringSecurity {
 
         return http.build();
     }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {

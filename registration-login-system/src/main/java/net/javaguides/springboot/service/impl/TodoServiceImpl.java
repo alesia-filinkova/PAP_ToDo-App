@@ -42,11 +42,17 @@ public class TodoServiceImpl implements TodoService {
         return todos.stream().map((todo) -> mapToTodoDto(todo)).collect(Collectors.toList());
     }
 
+
     @Override
     public List<TodoDto> getAllTodosByUser() {
-        List<Todo> todos = todoRepository.findTodoByUserId(CurrentUser.user.getId());
-        return todos.stream().map((todo) -> mapToTodoDto(todo)).collect(Collectors.toList());
+        Long userId = CurrentUser.user.getId();
+        System.out.println("User ID: " + userId);
+        List<Todo> todos = todoRepository.findTodoByUserId(userId);
+        System.out.println("Found todos: " + todos.size());
+        return todos.stream().map(this::mapToTodoDto).collect(Collectors.toList());
     }
+
+
 
     @Override
     public TodoDto updateTodo(TodoDto todoDto, Long id) {
