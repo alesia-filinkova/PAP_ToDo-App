@@ -58,9 +58,6 @@ public class UserServiceImpl implements UserService {
         emailMessage.setSubject("Password Reset Request");
         emailMessage.setText(message);
         mailSender.send(emailMessage);
-
-
-        mailSender.send(emailMessage);
     }
 
     @Override
