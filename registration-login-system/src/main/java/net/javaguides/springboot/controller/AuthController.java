@@ -239,10 +239,6 @@ public class AuthController {
     public List<TodoDto> getAllTodosByUser() {
         List<TodoDto> todos = todoService.getAllTodosByUser();
 
-        for (TodoDto todo : todos) {
-            System.out.println("Zadanie: " + todo.getTitle() + " - Data: " + todo.getDeadline());
-        }
-
         return todos;
     }
 
