@@ -46,9 +46,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public List<TodoDto> getAllTodosByUser() {
         Long userId = CurrentUser.user.getId();
-        System.out.println("User ID: " + userId);
         List<Todo> todos = todoRepository.findTodoByUserId(userId);
-        System.out.println("Found todos: " + todos.size());
         return todos.stream().map(this::mapToTodoDto).collect(Collectors.toList());
     }
 
