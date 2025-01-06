@@ -12,10 +12,8 @@
 <body>
 <div class="container">
 
-  <!-- Title -->
   <div class="title">Settings</div>
 
-  <!-- Sign up prompt -->
   <div class="not_have_account">
     <a class="sign_up_button" th:href="@{/todos}">Close</a>
   </div>
@@ -23,7 +21,6 @@
     <a class="sign_up_button" th:href="@{/logout}">Logout</a>
   </div>
 
-  <!-- Input fields -->
   <form  method="post" th:action="@{/settings/save}" th:object="${user}" role="form" class="form-horizontal">
     <div>
       <input

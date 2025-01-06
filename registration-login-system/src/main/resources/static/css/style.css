@@ -334,3 +334,22 @@ body {
     color: #47465a;
 }
 
+.top-left-buttons-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.top-left-button {
+    background-color: #5c5c68;
+    color: #FFE8C2;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.top-left-button:hover {
+    background-color: #403f4d;
+}
