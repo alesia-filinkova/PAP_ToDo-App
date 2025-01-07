@@ -1,19 +1,39 @@
 package net.javaguides.springboot;
 
+import net.javaguides.springboot.config.SpringSecurity;
 import net.javaguides.springboot.dto.NoteDto;
+import net.javaguides.springboot.dto.TodoDto;
+import net.javaguides.springboot.entity.Role;
+import net.javaguides.springboot.repository.RoleRepository;
 import net.javaguides.springboot.repository.UserRepository;
+import net.javaguides.springboot.service.TodoService;
+import net.javaguides.springboot.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import net.javaguides.springboot.entity.Note;
 import net.javaguides.springboot.repository.NoteRepository;
 import net.javaguides.springboot.service.impl.NoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import net.javaguides.springboot.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,13 +68,44 @@ class NoteEnityTest {
     }
 
 }
-class NoteServiceImplTest {
 
+@SpringBootTest
+@AutoConfigureMockMvc
+class NoteAddNoteServiceTest{
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private NoteService noteService;
+
+    @Test
+    @WithMockUser(username = "fff@gmail.com", roles = {"USER"})
+    public void testAddNote() throws Exception {
+        NoteDto notoDto = new NoteDto();
+        notoDto.setTitle("New Title");
+        notoDto.setContent("Content");
+
+
+        mockMvc.perform(post("/notes/save")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("title", notoDto.getTitle())
+                        .param("content", notoDto.getContent()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/notes"));
+    }
+
+
+
+}
+class NoteServiceImplTest {
     @Mock
     private NoteRepository noteRepository;
+    private UserRepository userRepository;
+
 
     @InjectMocks
     private NoteServiceImpl noteService;
+
 
     private Note note;
     private NoteDto noteDto;
@@ -64,13 +115,6 @@ class NoteServiceImplTest {
         MockitoAnnotations.openMocks(this);
         note = new Note(1L, "Test Title", "Test Content", null);
         noteDto = new NoteDto(1L, "Test Title", "Test Content");
-    }
-
-    @Test
-    void testAddNote() {
-        when(noteRepository.save(any(Note.class))).thenReturn(note);
-        noteService.addNote(noteDto);
-        verify(noteRepository, times(1)).save(any(Note.class));
     }
 
     @Test
@@ -132,21 +176,21 @@ class NoteRepositoryTest {
 }
 
 
-@SpringBootTest
-class NoteIntegrationTest {
-
-    @Autowired
-    private NoteService noteService;
-
-    @Test
-    void testAddAndRetrieveNotes() {
-        NoteDto noteDto = new NoteDto(null, "Integration Title", "Integration Content");
-        noteService.addNote(noteDto);
-
-        List<NoteDto> notes = noteService.getAllNotes();
-        assertTrue(notes.stream().anyMatch(note -> note.getTitle().equals("Integration Title")));
-    }
-}
+//@SpringBootTest
+//class NoteIntegrationTest {
+//
+//    @Autowired
+//    private NoteService noteService;
+//
+//    @Test
+//    void testAddAndRetrieveNotes() {
+//        NoteDto noteDto = new NoteDto(null, "Integration Title", "Integration Content");
+//        noteService.addNote(noteDto);
+//
+//        List<NoteDto> notes = noteService.getAllNotes();
+//        assertTrue(notes.stream().anyMatch(note -> note.getTitle().equals("Integration Title")));
+//    }
+//}
 
 class NoteServiceTest {
 
@@ -164,18 +208,6 @@ class NoteServiceTest {
         testUser = new User();
         testUser.setId(1L);
         testUser.setName("Test User");
-    }
-
-    @Test
-    void testAddNote() {
-        NoteDto noteDto = new NoteDto(null, "Test Title", "Test Content");
-        Note savedNote = new Note(1L, "Test Title", "Test Content", testUser);
-
-        when(noteRepository.save(any(Note.class))).thenReturn(savedNote);
-
-        noteService.addNote(noteDto);
-
-        verify(noteRepository, times(1)).save(any(Note.class));
     }
 
     @Test

@@ -1,7 +1,6 @@
 package net.javaguides.springboot.controller;
 
 import jakarta.validation.Valid;
-import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.RegistrationLoginSystemApplication;
 import net.javaguides.springboot.dto.SettingsDto;
 import net.javaguides.springboot.dto.TodoDto;
@@ -11,9 +10,7 @@ import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.service.TodoService;
 import net.javaguides.springboot.service.UserService;
 import net.javaguides.springboot.service.NoteService;
-import net.javaguides.springboot.service.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,6 +75,13 @@ public class AuthController {
 
         userService.saveUser(userDto);
         return "redirect:/register?success";
+    }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
     }
 
     @GetMapping("/todos")
@@ -146,10 +150,10 @@ public class AuthController {
     @GetMapping("/settings")
     public String setting(Model model) {
         UserDto userDto = new UserDto();
-        userDto.setId(CurrentUser.user.getId());
-        userDto.setName(CurrentUser.user.getName());
-        userDto.setEmail(CurrentUser.user.getEmail());
-        userDto.setPassword(CurrentUser.user.getPassword());
+        userDto.setId(userService.currentUser().getId());
+        userDto.setName(userService.currentUser().getName());
+        userDto.setEmail(userService.currentUser().getEmail());
+        userDto.setPassword(userService.currentUser().getPassword());
         model.addAttribute("user", userDto);
         return "settings";
     }
@@ -160,7 +164,7 @@ public class AuthController {
                             Model model) {
         User existingUser = userService.findUserByEmail(user.getEmail());
 
-        if ((existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) && existingUser.getId() != null && !existingUser.getId().equals(CurrentUser.user.getId())) {
+        if ((existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) && existingUser.getId() != null && !existingUser.getId().equals(userService.currentUser().getId())) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
         }
@@ -170,7 +174,7 @@ public class AuthController {
             return "settings";
         }
         userService.updateUserInformation(user);
-        return "redirect:/settings?success";
+        return "redirect:/logout";
     }
 
     @GetMapping("/forgot-password")
@@ -224,7 +228,7 @@ public class AuthController {
             existingUser = userService.findUserByEmail(email);
         }
 
-        CurrentUser.user = existingUser;
+        //CurrentUser.user = existingUser;
 
         return "redirect:/todos";
     }

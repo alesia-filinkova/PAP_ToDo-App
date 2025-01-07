@@ -1,10 +1,11 @@
 package net.javaguides.springboot.service.impl;
 
 import lombok.AllArgsConstructor;
-import net.javaguides.springboot.CurrentUser;
+import net.javaguides.springboot.config.SpringSecurity;
 import net.javaguides.springboot.dto.NoteDto;
 import net.javaguides.springboot.entity.Note;
 import net.javaguides.springboot.repository.NoteRepository;
+import net.javaguides.springboot.repository.UserRepository;
 import net.javaguides.springboot.service.NoteService;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,12 @@ import java.util.stream.Collectors;
 public class NoteServiceImpl implements NoteService {
 
     private NoteRepository noteRepository;
+    private UserRepository userRepository;
 
     @Override
     public void addNote(NoteDto noteDto) {
         Note note = mapToNote(noteDto);
-        note.setUser(CurrentUser.user);
+        note.setUser(userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get());
         noteRepository.save(note);
     }
 
@@ -39,7 +41,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDto> getAllNotesByUser() {
-        List<Note> notes = noteRepository.findNoteByUserId(CurrentUser.user.getId());
+        List<Note> notes = noteRepository.findNoteByUserId(userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get().getId());
         return notes.stream().map(this::mapToNoteDto).collect(Collectors.toList());
     }
 
@@ -64,6 +66,6 @@ public class NoteServiceImpl implements NoteService {
     }
 
     private Note mapToNote(NoteDto noteDto) {
-        return new Note(noteDto.getId(), noteDto.getTitle(), noteDto.getContent(), CurrentUser.user);
+        return new Note(noteDto.getId(), noteDto.getTitle(), noteDto.getContent(), userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get());
     }
 }

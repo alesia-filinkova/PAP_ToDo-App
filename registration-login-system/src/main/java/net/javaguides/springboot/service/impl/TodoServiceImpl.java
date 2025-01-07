@@ -1,10 +1,11 @@
 package net.javaguides.springboot.service.impl;
 
 import lombok.AllArgsConstructor;
-import net.javaguides.springboot.CurrentUser;
+import net.javaguides.springboot.config.SpringSecurity;
 import net.javaguides.springboot.dto.TodoDto;
 import net.javaguides.springboot.entity.Todo;
 import net.javaguides.springboot.repository.TodoRepository;
+import net.javaguides.springboot.repository.UserRepository;
 import net.javaguides.springboot.service.TodoService;
 
 import org.springframework.stereotype.Service;
@@ -17,13 +18,14 @@ import java.util.stream.Collectors;
 public class TodoServiceImpl implements TodoService {
 
     private TodoRepository todoRepository;
+    private UserRepository userRepository;
 
     @Override
     public void addTodo(TodoDto todoDto) {
         Todo todo = new Todo();
         todo.setTitle(todoDto.getTitle());
         todo.setDescription(todoDto.getDescription());
-        todo.setUser(CurrentUser.user);
+        todo.setUser(userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get());
         todo.setDeadline(todoDto.getDeadline());
         todo.setPriority(todoDto.getPriority());
 
@@ -45,7 +47,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoDto> getAllTodosByUser() {
-        Long userId = CurrentUser.user.getId();
+        Long userId = userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get().getId();
         List<Todo> todos = todoRepository.findTodoByUserId(userId);
         return todos.stream().map(this::mapToTodoDto).collect(Collectors.toList());
     }
@@ -101,7 +103,7 @@ public class TodoServiceImpl implements TodoService {
                 todoDto.getTitle(),
                 todoDto.getDescription(),
                 todoDto.getCompleted(),
-                CurrentUser.user,
+                userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get(),
                 todoDto.getDeadline(),
                 todoDto.getPriority()
         );

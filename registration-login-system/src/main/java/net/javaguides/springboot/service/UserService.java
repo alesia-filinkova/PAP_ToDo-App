@@ -16,4 +16,5 @@ public interface UserService {
     List<UserDto> findAllUsers();
     void sendPasswordResetToken(String email);
     void resetPassword(String token, String newPassword);
+    User currentUser();
 }

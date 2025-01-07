@@ -1,6 +1,5 @@
 package net.javaguides.springboot.security;
 
-import net.javaguides.springboot.CurrentUser;
 import net.javaguides.springboot.entity.User;
 import net.javaguides.springboot.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid email or password"));
 
-        CurrentUser.user = user;
+        //CurrentUser.user = user;
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

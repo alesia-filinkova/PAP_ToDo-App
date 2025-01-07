@@ -1,6 +1,6 @@
 package net.javaguides.springboot.service.impl;
 
-import net.javaguides.springboot.CurrentUser;
+import net.javaguides.springboot.config.SpringSecurity;
 import net.javaguides.springboot.dto.SettingsDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Role;
@@ -11,6 +11,7 @@ import net.javaguides.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,8 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           SpringSecurity springSecurity) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -92,6 +92,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User currentUser() {
+        return userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get();
+    }
+
+    @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getName());
@@ -108,17 +113,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInformation(SettingsDto settingsDto) {
+        String currentEmail = SpringSecurity.getCurrentUserName();
+        if (currentEmail == null) {
+            throw new UsernameNotFoundException("Current user not found in the security context");
+        }
+
+        User currentUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         if (settingsDto.getName() != null && !settingsDto.getName().isEmpty()) {
-            CurrentUser.user.setName(settingsDto.getName());
+            currentUser.setName(settingsDto.getName());
         }
-        if (settingsDto.getEmail() != null && !settingsDto.getEmail().isEmpty()) {
-            CurrentUser.user.setEmail(settingsDto.getEmail());
+
+        boolean emailChanged = false;
+        if (settingsDto.getEmail() != null && !settingsDto.getEmail().isEmpty()
+                && !settingsDto.getEmail().equals(currentUser.getEmail())) {
+            currentUser.setEmail(settingsDto.getEmail());
+            emailChanged = true;
         }
-        if (!settingsDto.getPassword().isEmpty()) {
-            CurrentUser.user.setPassword(passwordEncoder.encode(settingsDto.getPassword()));
+
+        if (settingsDto.getPassword() != null && !settingsDto.getPassword().isEmpty()) {
+            currentUser.setPassword(passwordEncoder.encode(settingsDto.getPassword()));
         }
-        userRepository.save(CurrentUser.user);
+
+        userRepository.save(currentUser);
     }
+
+
 
     @Override
     public User findUserByEmail(String email) {

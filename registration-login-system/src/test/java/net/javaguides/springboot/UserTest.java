@@ -1,5 +1,6 @@
 package net.javaguides.springboot;
 
+import net.javaguides.springboot.config.SpringSecurity;
 import net.javaguides.springboot.dto.SettingsDto;
 import net.javaguides.springboot.dto.UserDto;
 import net.javaguides.springboot.entity.Role;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,21 +67,27 @@ class UserServiceImplTest {
 
     @Test
     void shouldUpdateUserInformation() {
-        User user = new User(1L, "John", "john@example.com", "encryptedPassword", new ArrayList<>(), null, null);
-        CurrentUser.user = user;
+        String currentEmail = "john@example.com";
+        User user = new User(1L, "John", currentEmail, "encryptedPassword", new ArrayList<>(), null, null);
 
         SettingsDto settingsDto = new SettingsDto(null, "John Updated", "john.updated@example.com", "newPassword");
+        try (MockedStatic<SpringSecurity> mockedSecurity = Mockito.mockStatic(SpringSecurity.class)) {
+            mockedSecurity.when(SpringSecurity::getCurrentUserName).thenReturn(currentEmail);
 
-        Mockito.when(passwordEncoder.encode("newPassword")).thenReturn("newEncryptedPassword");
-        Mockito.when(userRepository.save(user)).thenReturn(user);
+            Mockito.when(userRepository.findByEmail(currentEmail)).thenReturn(Optional.of(user));
+            Mockito.when(passwordEncoder.encode("newPassword")).thenReturn("newEncryptedPassword");
+            Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        userService.updateUserInformation(settingsDto);
+            userService.updateUserInformation(settingsDto);
 
-        Assertions.assertEquals("John Updated", user.getName());
-        Assertions.assertEquals("john.updated@example.com", user.getEmail());
-        Assertions.assertEquals("newEncryptedPassword", user.getPassword());
-        Mockito.verify(userRepository, Mockito.times(1)).save(user);
+            Assertions.assertEquals("John Updated", user.getName());
+            Assertions.assertEquals("john.updated@example.com", user.getEmail());
+            Assertions.assertEquals("newEncryptedPassword", user.getPassword());
+            Mockito.verify(userRepository, Mockito.times(1)).save(user); // Sprawdzenie wywołania metody save
+            Mockito.verify(userRepository, Mockito.times(1)).findByEmail(currentEmail); // Sprawdzenie wywołania metody findByEmail
+        }
     }
+
 
     @Test
     void shouldFindUserByEmail() {
