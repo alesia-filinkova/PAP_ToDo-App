@@ -50,14 +50,18 @@
             console.error("Server response error:", response.statusText);
             return;
         }
+
         const data = await response.json();
 
         data.forEach(task => {
-            const dateParts = task.deadline.split("-");
-            const dateKey = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
+            const dateKey = task.deadline;
             if (!tasks[dateKey]) tasks[dateKey] = [];
-            tasks[dateKey].push(task.title);
+            tasks[dateKey].push({
+                title: task.title,
+                priority: task.priority
+            });
         });
+
     }
 
     function renderCalendar() {
@@ -81,13 +85,51 @@
             const dayCell = document.createElement('div');
             dayCell.classList.add('calendar-cell');
             dayCell.textContent = i;
+
+            const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+            const taskList = tasks[dateKey] || [];
+
+            if (taskList.length > 0) {
+                dayCell.classList.add('has-tasks');
+
+                const highPriority = taskList.filter(task => task.priority === "high").length;
+                const mediumPriority = taskList.filter(task => task.priority === "medium").length;
+                const lowPriority = taskList.filter(task => task.priority === "low" || task.priority === "none").length;
+
+                const priorityContainer = document.createElement('div');
+                priorityContainer.classList.add('priority-container');
+
+                if (highPriority > 0) {
+                    const highIndicator = document.createElement('span');
+                    highIndicator.classList.add('priority-indicator', 'high-priority');
+                    highIndicator.textContent = highPriority;
+                    priorityContainer.appendChild(highIndicator);
+                }
+
+                if (mediumPriority > 0) {
+                    const mediumIndicator = document.createElement('span');
+                    mediumIndicator.classList.add('priority-indicator', 'medium-priority');
+                    mediumIndicator.textContent = mediumPriority;
+                    priorityContainer.appendChild(mediumIndicator);
+                }
+
+                if (lowPriority > 0) {
+                    const lowIndicator = document.createElement('span');
+                    lowIndicator.classList.add('priority-indicator', 'low-priority');
+                    lowIndicator.textContent = lowPriority;
+                    priorityContainer.appendChild(lowIndicator);
+                }
+
+                dayCell.appendChild(priorityContainer);
+            }
+
             dayCell.addEventListener("mouseenter", (event) => showTooltip(event, i));
             dayCell.addEventListener("mouseleave", hideTooltip);
             daysContainer.appendChild(dayCell);
         }
 
         const totalCells = firstDayOfMonth + daysInMonth;
-        const remainingCells = 42 - totalCells; // 6 rzędów x 7 dni = 42
+        const remainingCells = 42 - totalCells;
         for (let i = 0; i < remainingCells; i++) {
             const emptyCell = document.createElement('div');
             emptyCell.classList.add('calendar-cell', 'empty');
@@ -100,12 +142,26 @@
         const month = currentDate.getMonth() + 1;
         const year = currentDate.getFullYear();
         const dateKey = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-        const taskList = tasks[dateKey] || ["There is no tasks"];
-        tooltip.innerHTML = `<strong>Tasks:</strong><ul>${taskList.map(task => `<li>${task}</li>`).join('')}</ul>`;
+        const taskList = tasks[dateKey] || [];
+
+        if (taskList.length === 0) {
+            tooltip.innerHTML = `<strong>There is no tasks yet</strong>`;
+        } else {
+            const sortedTasks = taskList.sort((a, b) => {
+                const priorityOrder = { high: 1, medium: 2, low: 3 };
+                return (priorityOrder[a.priority] || 3) - (priorityOrder[b.priority] || 3);
+            });
+
+            tooltip.innerHTML = `<strong>Tasks:</strong><ul>${sortedTasks
+                .map(task => `<li>${task.title} - <strong>${task.priority}</strong></li>`)
+                .join('')}</ul>`;
+        }
+
         tooltip.style.top = event.clientY + 20 + "px";
         tooltip.style.left = event.clientX + 20 + "px";
         tooltip.classList.remove("hidden");
     }
+
 
     function hideTooltip() {
         document.getElementById("tooltip").classList.add("hidden");

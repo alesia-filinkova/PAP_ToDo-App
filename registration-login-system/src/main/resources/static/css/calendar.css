@@ -37,7 +37,7 @@ a.btn:hover {
     background-color: #4A4A6A;
     border-radius: 15px;
     padding: 20px;
-    color: white;
+    color: #4a4a6a;
     text-align: center;
 }
 
@@ -139,4 +139,54 @@ a.btn:hover {
 
 .tooltip.hidden {
     display: none;
+}
+
+.calendar-cell.has-tasks {
+    background-color: #acaccf;
+    border: 2px solid #4a4a6a;
+}
+
+.task-count {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #4a4a6a;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.priority-container {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.priority-indicator {
+    display: block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.high-priority {
+    background-color: #ff5555;
+}
+
+.medium-priority {
+    background-color: #ffd700;
+}
+
+.low-priority {
+    background-color: #77dd77;
 }
