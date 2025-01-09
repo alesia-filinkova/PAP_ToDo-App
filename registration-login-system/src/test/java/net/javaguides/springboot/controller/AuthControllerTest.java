@@ -76,8 +76,8 @@ public class AuthControllerTest {
         Mockito.when(todoService.getAllTodosByUser()).thenReturn(todos);
 
         mockMvc.perform(get("/todos"))
-                .andExpect(status().isOk()) // Sprawdza, czy status odpowiedzi to 200 OK
-                .andExpect(model().attribute("todos", Matchers.hasSize(2))) // Sprawdza, czy lista "todos" zawiera dwa zadania
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("todos", Matchers.hasSize(2)))
                 .andExpect(model().attribute("todo", Matchers.hasProperty("title", Matchers.nullValue())))
                 .andExpect(model().attribute("todo", Matchers.hasProperty("description", Matchers.nullValue())))
                 .andExpect(model().attribute("todo", Matchers.hasProperty("completed", Matchers.nullValue())))

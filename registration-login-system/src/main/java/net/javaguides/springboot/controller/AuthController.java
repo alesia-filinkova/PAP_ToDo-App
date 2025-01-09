@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -193,11 +194,41 @@ public class AuthController {
         }
     }
 
-
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
-        userService.resetPassword(token, newPassword);
-        return ResponseEntity.ok("Password has been reset successfully!");
+    public String handlePasswordReset(@RequestParam("token") String token,
+                                      @RequestParam("password") String newPassword,
+                                      @RequestParam("confirmPassword") String confirmPassword,
+                                      Model model) {
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match!");
+            return "set-new-password";
+        }
+        try {
+            userService.resetPassword(token, newPassword);
+            return "redirect:/login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred. Please try again.");
+            return "set-new-password";
+        }
+    }
+
+    @GetMapping("/set-new-password")
+    public String findUserByResetToken(@RequestParam(value = "token", required = false) String token, Model model) {
+
+        if (token == null || token.isEmpty()) {
+            model.addAttribute("error", "The reset token is required.");
+            return "redirect:/login";
+        }
+
+        User user = userService.findUserByResetToken(token.trim());
+        if (user == null) {
+            model.addAttribute("error", "Invalid or expired token.");
+            return "redirect:/login";
+        }
+
+        model.addAttribute("token", token);
+        return "set-new-password";
     }
 
     @GetMapping("/emailsend")

@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +31,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder,
-                           SpringSecurity springSecurity) {
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -45,14 +45,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
 
-        String newPassword = generateRandomPassword();
-
-        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-        user.setResetToken(null);
-        user.setTokenExpiryDate(null);
+        String resetToken = UUID.randomUUID().toString();
+        user.setResetToken(resetToken);
+        user.setTokenExpiryDate(LocalDateTime.now().plusMinutes(15));
         userRepository.save(user);
 
-        String message = "Your new password: " + newPassword + "\nLog in and change your password in the settings to your own.";
+        String resetLink = "http://localhost:8080/set-new-password?token=" + resetToken;
+        String message = "[Study planner]\nClick the following link to reset your password (link active for 15 minutes): \n" + resetLink;
 
         SimpleMailMessage emailMessage = new SimpleMailMessage();
         emailMessage.setFrom("sofia.edejko@gmail.com");
@@ -63,37 +62,35 @@ public class UserServiceImpl implements UserService {
         mailSender.send(emailMessage);
     }
 
-    private String generateRandomPassword() {
-        int length = 10;
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            int index = (int) (Math.random() * chars.length());
-            password.append(chars.charAt(index));
-        }
-        return password.toString();
-    }
-
-
-
-    @Override
     public void resetPassword(String token, String newPassword) {
-        User user = userRepository.findByResetToken(token)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
+
+        User user = userRepository.findByResetToken(token.trim())
+                .orElseThrow(() -> {
+                    return new IllegalArgumentException("Invalid token");
+                });
 
         if (user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Token has expired");
         }
 
-        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
         user.setResetToken(null);
         user.setTokenExpiryDate(null);
         userRepository.save(user);
+
+    }
+
+
+    @Override
+    public User findUserByResetToken(String token) {
+        return userRepository.findByResetToken(token).orElse(null);
     }
 
     @Override
     public User currentUser() {
-        return userRepository.findByEmail(SpringSecurity.getCurrentUserName()).get();
+        return userRepository.findByEmail(SpringSecurity.getCurrentUserName())
+                .orElseThrow(() -> new UsernameNotFoundException("Current user not found"));
     }
 
     @Override
@@ -107,7 +104,7 @@ public class UserServiceImpl implements UserService {
         if (role == null) {
             role = checkRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
@@ -125,11 +122,9 @@ public class UserServiceImpl implements UserService {
             currentUser.setName(settingsDto.getName());
         }
 
-        boolean emailChanged = false;
         if (settingsDto.getEmail() != null && !settingsDto.getEmail().isEmpty()
                 && !settingsDto.getEmail().equals(currentUser.getEmail())) {
             currentUser.setEmail(settingsDto.getEmail());
-            emailChanged = true;
         }
 
         if (settingsDto.getPassword() != null && !settingsDto.getPassword().isEmpty()) {
@@ -138,8 +133,6 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(currentUser);
     }
-
-
 
     @Override
     public User findUserByEmail(String email) {
@@ -159,7 +152,6 @@ public class UserServiceImpl implements UserService {
         userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
         return userDto;
     }
 

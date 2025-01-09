@@ -18,8 +18,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.Optional;
-
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -50,8 +48,10 @@ public class SpringSecurity {
                 .requestMatchers("/settings/**").permitAll()
                 .requestMatchers("/forgot-password").permitAll()
                 .requestMatchers("/reset-password").permitAll()
-                .requestMatchers("/oauth2/**").permitAll()
+                .requestMatchers("/auth/reset-password").permitAll()
+                .requestMatchers("/set-new-password").permitAll()
                 .requestMatchers("/emailsend/**").permitAll()
+                .requestMatchers("/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(
@@ -69,19 +69,16 @@ public class SpringSecurity {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
                         .defaultSuccessUrl("/oauth2/success", true)
-
                 );
 
         return http.build();
     }
-
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-
 
     public static String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
