@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 2000px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -16,6 +16,11 @@ h1 {
     font-size: 48px;
     color: #47465A;
     margin-bottom: 20px;
+}
+
+#month-year-display {
+    color: #FFE8C2;
+    font-size: 36px;
 }
 
 a.btn {
